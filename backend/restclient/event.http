@@ -1,0 +1,89 @@
+@baseUrl = http://localhost:3000/api/event
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGUyMGVkYy0zNmYxLTQzODgtYTJlYy0yZGM2MWE1NzFlMTAiLCJlbWFpbCI6ImVhcmxqb2UwNkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IisyNTQxMTIyNzIyNTAiLCJmaXJzdE5hbWUiOiJKT2huIiwibGFzdE5hbWUiOiJLYWRpbWEiLCJyb2xlIjoiRVZFTlRfTUFOQUdFUiIsImlhdCI6MTcyMDMwNDM2NiwiZXhwIjoxNzIwMzA3OTY2fQ.01ubUqRUl1woRkCZOglmwdZ3_7Ep1MwNnmUDRpgloeE
+
+### Create a new event with tickets
+POST {{baseUrl}}/create
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+Camp Ndunda Trip
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+A weekend of great music and fun
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="date"
+
+2023-07-15T18:00:00Z
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="location"
+
+Central Park, New York
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryId"
+
+f17ff256-d6b3-4bc1-b095-fd18a3d424d0
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="poster"; filename="clubMbuzi.png"
+Content-Type: image/png
+
+< /home/earljoe/Downloads/clubMbuzi.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tickets"
+Content-Type: application/json
+
+[{"type": "General Admission", "price": 50, "quantity": 1000}, {"type": "VIP", "price": 150, "quantity": 100}]
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Get all events
+GET {{baseUrl}}/all
+
+### Get a specific event
+GET {{baseUrl}}/d629e443-7c53-48a4-93b3-b44d487da789
+
+### Update an event
+PUT {{baseUrl}}/update/d629e443-7c53-48a4-93b3-b44d487da789
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Updated Summer Music Festival",
+  "description": "A weekend of great music and mad fun",
+  "date": "2023-07-15T18:00:00Z",
+  "location": "Chuka",
+  "categoryId": "f17ff256-d6b3-4bc1-b095-fd18a3d424d0",
+  "tickets": "[{\"type\": \"General Admission\", \"price\": 5000, \"quantity\": 1000}, {\"type\": \"VIP\", \"price\": 10000, \"quantity\": 100}]"
+}
+
+###GET all events in a category
+GET {{baseUrl}}/category/f17ff256-d6b3-4bc1-b095-fd18a3d424d0
+
+###GET EVENTS BY Manager
+GET {{baseUrl}}/manager/5de20edc-36f1-4388-a2ec-2dc61a571e10
+
+### Get events by location
+GET {{baseUrl}}/location/Chuka
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+
+### Update event poster
+PUT {{baseUrl}}/update-poster/d629e443-7c53-48a4-93b3-b44d487da789
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="poster"; filename="clubMbuzi.png"
+Content-Type: image/png
+
+< /home/earljoe/Downloads/clubMbuzi.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Delete an event
+DELETE {{baseUrl}}/bba594a9-c6c1-4876-8546-bdbb275d05f3
+Authorization: Bearer {{authToken}}
+

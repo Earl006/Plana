@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String    @id @default(uuid())
+  email                String    @unique
+  phoneNumber          String
+  passwordHash         String
+  firstName            String
+  lastName             String
+  avatarUrl            String    @default("https://static.vecteezy.com/system/resources/previews/005/545/335/non_2x/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg")
+  role                 String    @default("ATTENDEE")
+  managerRequestStatus String?   @default("PENDING")
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  resetToken           String?
+  resetTokenExpiry     DateTime?
+  bookings             Booking[]
+  managedEvents        Event[]   @relation("EventManager")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  events    Event[]
+}
+
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  managerId   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  categoryId  String
+  posterUrl   String
+  bookings    Booking[]
+  category    Category  @relation(fields: [categoryId], references: [id])
+  manager     User      @relation("EventManager", fields: [managerId], references: [id], onUpdate: NoAction)
+  tickets     Ticket[]
+}
+
+model Ticket {
+  id       String    @id @default(uuid())
+  eventId  String
+  type     String
+  price    Decimal
+  quantity Int
+  bookings Booking[]
+  event    Event     @relation(fields: [eventId], references: [id], onUpdate: NoAction)
+}
+
+model Booking {
+  id         String   @id @default(uuid())
+  userId     String
+  eventId    String
+  ticketId   String
+  quantity   Int
+  totalPrice Decimal
+  status     String   @default("CONFIRMED")
+  verificationCode String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  event      Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction)
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onUpdate: NoAction)
+  user       User     @relation(fields: [userId], references: [id], onUpdate: NoAction)
+}
