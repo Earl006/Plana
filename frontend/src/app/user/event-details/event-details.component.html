@@ -1,0 +1,35 @@
+<section class="py-16 text-center text-white">
+  <div *ngIf="selectevent" class="max-w-3xl mx-auto p-8 bg-gray-800 text-white rounded-lg shadow-lg">
+    <div class="flex flex-wrap lg:flex-nowrap">
+      <!-- Left Side: Event Poster -->
+      <div class="w-full lg:w-1/2 mb-4 lg:mb-0">
+        <img [src]="selectevent.img" alt="Event Poster" class="w-full h-full object-contain">
+      </div>
+      <!-- Right Side: Event Details -->
+      <div class="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-between">
+        <div>
+          <h1 class="text-4xl font-bold mb-4">{{ selectevent.name }}</h1>
+          <p class="text-lg mb-4"><strong>Category:</strong> {{ selectevent.category }}</p>
+          <p class="text-lg mb-4"><strong>Pricing:</strong> {{ selectevent.pricing }}</p>
+          <p class="text-lg mb-4"><strong>Tickets Remaining:</strong> {{ selectevent.tickets }}</p>
+          <p class="text-lg mb-4"><strong>Description:</strong> {{ selectevent.description }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="text-white font-semibold py-2 px-4 transition duration-300 hover:bg-gray-700 flex items-center justify-center w-full mb-4"
+                  (click)="toggleWishlist()">
+            <svg *ngIf="isInWishlist()" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <svg *ngIf="!isInWishlist()" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-1" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            {{ isInWishlist() ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+          </button>
+          <button class="bg-black text-white font-semibold py-2 px-4 transition duration-300 hover:bg-black/50 w-full">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

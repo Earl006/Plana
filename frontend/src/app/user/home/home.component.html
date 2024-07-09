@@ -1,0 +1,182 @@
+<section id="home" class="relative w-full h-[calc(80vh-64px)] overflow-hidden mt-16">
+    <div class="absolute inset-0">
+      <div *ngFor="let slide of slides; let i = index" 
+           class="absolute inset-0 transition-opacity duration-1000"
+           [class.opacity-100]="i === currentSlide" 
+           [class.opacity-0]="i !== currentSlide">
+        <img [src]="slide.image" alt="Slide Image" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white text-center">
+          <h2 class="text-4xl font-bold mb-4">{{ slide.title }}</h2>
+          <p class="text-xl mb-8">{{ slide.text }}</p>
+          <a routerLink="/login" class="inline-flex cursor-pointer items-center bg-black text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
+            <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
+            <span class="relative z-10 flex items-center">
+              GET STARTED  
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <button (click)="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button (click)="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </section>
+  <section id="about" class="py-16 h-[calc(80vh-64px)] text-center">
+    <div class="container mx-auto">
+      <h1 class="text-4xl font-bold mb-2">About Plana</h1>
+      <h2 class="text-2xl mb-8">Crafting Experiences, One Event at a Time</h2>
+      
+      <div class="flex flex-col md:flex-row items-center justify-between px-4">
+        <div class="max-w-lg md:mr-8">
+          <h3 class="text-2xl font-bold mb-2">Our Story</h3>
+          <p class="text-lg mb-4">
+            Picture this: It's 2021, and a group of friends are lamenting over yet another lackluster virtual event. "There has to be a better way," they thought. And just like that, Plana was born – not with a whimper, but with a bang (and maybe a confetti cannon or two).
+          </p>
+          <h3 class="text-2xl font-bold mb-2">Our Mission</h3>
+          <p class="text-lg mb-4">
+            We're on a mission to revolutionize the event landscape. Whether you're an attendee looking for your next adventure, an event manager aiming to create buzz, or an admin keeping the wheels turning smoothly, Plana is your trusty sidekick in the world of events.
+          </p>
+          <a routerLink="/about" class="inline-flex items-center bg-black cursor-pointer text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
+            <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
+            <span class="relative z-10 flex items-center">
+              READ MORE
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 transform translate-x-0 group-hover:translate-x-1 transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+        
+        <div class="max-w-lg">
+          <img src="carousel-img/undraw_coffee_with_friends_3cbj.svg" alt="Illustration" class="w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="events" class="py-44 pb-44 text-center h-[calc(80vh-64px)] text-white">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-bold mb-8">Events</h1>
+      
+      <!-- Search and Filter -->
+      <div class="flex justify-center items-center mb-8">
+        <div class="relative mr-4">
+          <input type="text" placeholder="Search events..." class="py-2 px-4 bg-gray-700 text-white rounded-full focus:outline-none">
+          <span class="absolute top-0 right-0 mt-2 mr-4 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l-6-6m0 0l6-6m-6 6h16" />
+            </svg>
+          </span>
+        </div>
+        <div class="relative">
+          <select class="py-2 px-8 bg-gray-700 w-fit text-white rounded-full focus:outline-none">
+            <option>All Categories</option>
+            <option>Music</option>
+            <option>Sports</option>
+            <option>Theatre</option>
+            <!-- Add more categories as needed -->
+          </select>
+          
+        </div>
+      </div>
+  
+      <!-- Event Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let event of paginatedEvents" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg p-6">
+          <img [src]="event.img" alt="Event Poster" class="w-full h-48 object-contain mb-4">
+          <h3 class="text-2xl font-bold mb-2">{{ event.name }}</h3>
+          <p class="text-lg mb-2">Ticket Pricing: {{ event.pricing }}</p>
+          <p class="text-lg mb-2">Category: {{ event.category }}</p>
+          <p class="text-lg mb-4">Tickets Remaining: {{ event.tickets }}</p>
+          <div class="flex justify-between items-center">
+            <button class="text-white flex items-center" (click)="event.inWishlist ? removeFromWishlist(event) : addToWishlist(event)">
+              <svg *ngIf="event.inWishlist" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 3.72l-.72-.71a5.25 5.25 0 0 0-7.43 7.42L10 17.11l8.15-6.7a5.25 5.25 0 0 0-7.43-7.42l-.72.71z" clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="!event.inWishlist" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-1" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              Add to Wishlist
+            </button>
+            <button [routerLink]="['/eventdetails', event.id]" class="bg-black text-white font-semibold py-2 px-4 transition duration-300 hover:bg-gray-700">
+              See Details
+            </button>
+            <button class="bg-green-600 text-white font-semibold py-2 px-4 transition duration-300 hover:bg-green-700">
+              Book Now
+            </button>
+          </div>
+        </div>
+        <!-- Repeat the above card for each event -->
+      </div>
+
+      <a routerLink="/events" class="inline-flex items-center mt-10 bg-black cursor-pointer text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
+        <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
+        <span class="relative z-10 flex items-center">
+          BROWSE MORE EVENTS
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 transform translate-x-0 group-hover:translate-x-1 transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="py-80 h-[calc(80vh-64px)] mt-32 mb-52">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold mb-8 text-center">Contact Us</h2>
+      
+      <form class="max-w-lg mx-auto shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 outline-none">
+        <!-- Name and Phone Fields -->
+        <div class="mb-4 flex flex-wrap">
+          <div class="w-full md:w-1/2 md:pr-2">
+            <label for="name" class="block text-sm font-bold text-white mb-2">Name</label>
+            <input id="name" type="text" placeholder="Your Name" class="w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 text-white">
+          </div>
+          <div class="w-full md:w-1/2 md:pl-2">
+            <label for="phone" class="block text-sm font-bold text-white mb-2">Phone</label>
+            <input id="phone" type="tel" placeholder="Your Phone" class="w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 text-white">
+          </div>
+        </div>
+        
+        <!-- Email and Subject Fields -->
+        <div class="mb-4 flex flex-wrap">
+          <div class="w-full md:w-1/2 md:pr-2">
+            <label for="email" class="block text-sm font-bold text-white mb-2">Email Address</label>
+            <input id="email" type="email" placeholder="Your Email" class="w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 text-white">
+          </div>
+          <div class="w-full md:w-1/2 md:pl-2">
+            <label for="subject" class="block text-sm font-bold text-white mb-2">Subject</label>
+            <input id="subject" type="text" placeholder="Subject" class="w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 text-white">
+          </div>
+        </div>
+        
+        <!-- Message Field -->
+        <div class="mb-6">
+          <label for="message" class="block text-sm font-bold text-white mb-2">Message</label>
+          <textarea id="message" placeholder="Your Message" rows="4" class="w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 text-white"></textarea>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="flex items-center justify-center">
+          <button type="submit" class="bg-black/100 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+  
+  
+  

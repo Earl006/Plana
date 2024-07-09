@@ -1,0 +1,48 @@
+<nav class="bg-#01A1A fixed w-full top-0 z-50 transition-all duration-300 h-16" [ngClass]="{'bg-[#010A1A]/80': isScrolled}">
+  <div class="container mx-auto flex items-center justify-between p-4 h-full">
+    <a href="/" class="text-white text-xl font-extrabold">PLAN-A</a>
+    <div class="flex-grow flex justify-center items-center space-x-6">
+      <ul class="flex space-x-6 items-center">
+        <li><a routerLink="/" fragment="home" class="text-white hover:text-gray-300">Home</a></li>
+        <li><a routerLink="/" fragment="about" class="text-white hover:text-gray-300">About Plana</a></li>
+        <li><a routerLink="/" fragment="events" class="text-white hover:text-gray-300">Events</a></li>
+        <li><a routerLink="/" fragment="contact" class="text-white hover:text-gray-300">Contact</a></li>
+        <li>
+          <a routerLink="/wishlist" class="text-white hover:text-gray-300 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            My Wishlist
+          </a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a routerLink="/bookings" class="text-white hover:text-gray-300 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            My Bookings
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="relative group">
+      <button class="text-white hover:text-gray-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      </button>
+      <div class="absolute right-0 mt-2 w-48 bg-[#010A1A] rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+        <div class="py-1">
+          <ng-container *ngIf="isLoggedIn; else loggedOut">
+            <a routerLink="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60">Edit Profile</a>
+            <a (click)="logout()" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60 cursor-pointer">Logout</a>
+          </ng-container>
+          <ng-template #loggedOut>
+            <a routerLink="/login" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60">Login</a>
+            <a routerLink="/register" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60">Register</a>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

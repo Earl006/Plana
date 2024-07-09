@@ -3,11 +3,11 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "email":"johndoe@outlook.com",
+    "email":"markidewriter@gmail.com",
     "password": "password",
-    "firstName": "JOhn",
-    "lastName": "Kadima",
-    "phoneNumber": "+254112272250"
+    "firstName": "Mark",
+    "lastName": "Ndiwiga",
+    "phoneNumber": "+254112272253"
 }
 
 ###LOGIN A USER
