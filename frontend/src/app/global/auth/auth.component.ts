@@ -1,48 +1,38 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   standalone:true,
-  imports:[FormsModule, CommonModule],
+  imports:[CommonModule,FormsModule],
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent{
-  showLogin = true;
-  loginData = {
-    email: '',
-    password: ''
-  };
-  registerData = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
-    confirmPassword: ''
-  };
+export class AuthComponent {
+  isLoginView = true;
 
-  showRegisterForm(): void {
-    this.showLogin = false;
+  // Login form fields
+  emailLogin: string = '';
+  passwordLogin: string = '';
+
+  nameRegister: string = '';
+  emailRegister: string = '';
+  passwordRegister: string = '';
+  confirmPassword: string = '';
+
+  toggleView() {
+    this.isLoginView = !this.isLoginView;
   }
 
-  showLoginForm(): void {
-    this.showLogin = true;
+  onLogin() {
+    // Implement login logic here
+    console.log('Login', this.emailLogin, this.passwordLogin);
   }
 
-  onLogin(form: NgForm): void {
-    if (form.valid) {
-      // Implement your login logic here
-      console.log('Logging in with:', this.loginData);
-    }
-  }
-
-  onRegister(form: NgForm): void {
-    if (form.valid) {
-      // Implement your register logic here
-      console.log('Registering with:', this.registerData);
-    }
+  onRegister() {
+    // Implement registration logic here
+    console.log('Register');
   }
 }

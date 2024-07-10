@@ -1,65 +1,50 @@
-<section class="py-16 text-center text-white">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Login Card -->
-        <div *ngIf="showLogin" class="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">Login</h2>
-          <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-            <div class="mb-4">
-              <label for="email" class="block text-sm font-bold mb-2">Email</label>
-              <input type="email" id="email" name="email" [(ngModel)]="loginData.email" class="w-full py-2 px-3 rounded text-black" required />
-            </div>
-            <div class="mb-4">
-              <label for="password" class="block text-sm font-bold mb-2">Password</label>
-              <input type="password" id="password" name="password" [(ngModel)]="loginData.password" class="w-full py-2 px-3 rounded text-black" required />
-            </div>
-            <div class="mb-4 text-left">
-              <a href="#" class="text-sm text-blue-500">Forgot your password? Click here...</a>
-            </div>
-            <button type="submit" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Login</button>
-            <div class="mt-4">
-              <a href="#" (click)="showRegisterForm()" class="text-sm text-blue-500">Not a member? Sign Up...</a>
-            </div>
-          </form>
+<!-- auth.component.html -->
+<div class="flex justify-center items-center h-[80%] py-24">
+    <div class="relative w-full max-w-4xl h-[600px] bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+      <!-- Login Form -->
+      <div class="absolute top-0 left-0 w-1/2 h-full p-8 flex flex-col justify-center items-center transition-all duration-700 ease-in-out"
+           [ngClass]="{'translate-x-full opacity-0': !isLoginView}">
+        <h2 class="text-3xl font-bold mb-6 text-white text-center">Login</h2>
+        <form class="space-y-4 w-full max-w-sm">
+          <input type="email" placeholder="Email" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="password" placeholder="Password" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <button type="submit" class="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-900 transition">Login</button>
+        </form>
+      </div>
+  
+      <!-- Signup Form -->
+      <div class="absolute top-0 left-1/2 w-1/2 h-full p-8 flex flex-col justify-center items-center transition-all duration-700 ease-in-out">
+        <h2 class="text-3xl font-bold mb-6 text-white text-center">Sign Up</h2>
+        <form class="space-y-4 w-full max-w-sm">
+          <input type="text" placeholder="First Name" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="text" placeholder="Last Name" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="email" placeholder="Email" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="tel" placeholder="Phone Number" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="password" placeholder="Password" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <input type="password" placeholder="Confirm Password" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+          <button type="submit" class="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-900 transition">Sign Up</button>
+        </form>
+      </div>
+  
+      <!-- Sliding Overlay -->
+      <div class="absolute top-0 right-0 w-1/2 h-full overflow-hidden transition-all duration-700 ease-in-out"
+           [ngClass]="{'translate-x-[-100%]': !isLoginView}">
+        <!-- Login overlay -->
+        <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center px-8 bg-gradient-to-b from-blue-800 to-blue-300 text-white transition-opacity duration-300 ease-in-out"
+             [ngClass]="{'opacity-0': !isLoginView}">
+          <h1 class="text-4xl font-bold mb-2 text-center">Welcome Back!</h1>
+          <img src="/carousel-img/undraw_access_account_re_8spm.svg" alt="Access Account" class="pb-5 h-80">
+          <p class="text-xl mb-4 text-center">Not yet a member?</p>
+          <button (click)="toggleView()" class="py-2 px-6 bg-black text-white rounded-full hover:bg-gray-900 transition">Sign Up</button>
         </div>
-        
-        <!-- Register Card -->
-        <div *ngIf="!showLogin" class="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">Register</h2>
-          <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
-            <div class="grid grid-cols-2 gap-4">
-              <div class="mb-4">
-                <label for="firstName" class="block text-sm font-bold mb-2">First Name</label>
-                <input type="text" id="firstName" name="firstName" [(ngModel)]="registerData.firstName" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-              <div class="mb-4">
-                <label for="lastName" class="block text-sm font-bold mb-2">Last Name</label>
-                <input type="text" id="lastName" name="lastName" [(ngModel)]="registerData.lastName" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-              <div class="mb-4">
-                <label for="email" class="block text-sm font-bold mb-2">Email</label>
-                <input type="email" id="email" name="email" [(ngModel)]="registerData.email" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-              <div class="mb-4">
-                <label for="phoneNumber" class="block text-sm font-bold mb-2">Phone Number</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" [(ngModel)]="registerData.phoneNumber" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-              <div class="mb-4">
-                <label for="password" class="block text-sm font-bold mb-2">Password</label>
-                <input type="password" id="password" name="password" [(ngModel)]="registerData.password" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-              <div class="mb-4">
-                <label for="confirmPassword" class="block text-sm font-bold mb-2">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="registerData.confirmPassword" class="w-full py-2 px-3 rounded text-black" required />
-              </div>
-            </div>
-            <button type="submit" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Create Account</button>
-            <div class="mt-4">
-              <a href="#" (click)="showLoginForm()" class="text-sm text-blue-500">Already a user? Login...</a>
-            </div>
-          </form>
+        <!-- Signup Section -->
+        <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center px-8 bg-gradient-to-t from-blue-900 to-blue-600 text-white transition-opacity duration-300 ease-in-out"
+             [ngClass]="{'opacity-0': isLoginView}">
+          <h1 class="text-4xl font-bold mb-2 text-center">Hello! Welcome to Plana</h1>
+          <img src="/carousel-img/undraw_sign_up_n6im.svg" alt="Sign Up" class="pb-5 h-80">
+          <p class="text-xl mb-4 text-center">Already a member?</p>
+          <button (click)="toggleView()" class="py-2 px-6 bg-black text-white rounded-full hover:bg-gray-900 transition">Login</button>
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
