@@ -1,0 +1,65 @@
+<section class="py-16 text-center text-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Login Card -->
+        <div *ngIf="showLogin" class="p-4 bg-gray-800 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold mb-4">Login</h2>
+          <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+            <div class="mb-4">
+              <label for="email" class="block text-sm font-bold mb-2">Email</label>
+              <input type="email" id="email" name="email" [(ngModel)]="loginData.email" class="w-full py-2 px-3 rounded text-black" required />
+            </div>
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-bold mb-2">Password</label>
+              <input type="password" id="password" name="password" [(ngModel)]="loginData.password" class="w-full py-2 px-3 rounded text-black" required />
+            </div>
+            <div class="mb-4 text-left">
+              <a href="#" class="text-sm text-blue-500">Forgot your password? Click here...</a>
+            </div>
+            <button type="submit" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Login</button>
+            <div class="mt-4">
+              <a href="#" (click)="showRegisterForm()" class="text-sm text-blue-500">Not a member? Sign Up...</a>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Register Card -->
+        <div *ngIf="!showLogin" class="p-4 bg-gray-800 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold mb-4">Register</h2>
+          <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="mb-4">
+                <label for="firstName" class="block text-sm font-bold mb-2">First Name</label>
+                <input type="text" id="firstName" name="firstName" [(ngModel)]="registerData.firstName" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+              <div class="mb-4">
+                <label for="lastName" class="block text-sm font-bold mb-2">Last Name</label>
+                <input type="text" id="lastName" name="lastName" [(ngModel)]="registerData.lastName" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+              <div class="mb-4">
+                <label for="email" class="block text-sm font-bold mb-2">Email</label>
+                <input type="email" id="email" name="email" [(ngModel)]="registerData.email" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+              <div class="mb-4">
+                <label for="phoneNumber" class="block text-sm font-bold mb-2">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" [(ngModel)]="registerData.phoneNumber" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+              <div class="mb-4">
+                <label for="password" class="block text-sm font-bold mb-2">Password</label>
+                <input type="password" id="password" name="password" [(ngModel)]="registerData.password" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+              <div class="mb-4">
+                <label for="confirmPassword" class="block text-sm font-bold mb-2">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="registerData.confirmPassword" class="w-full py-2 px-3 rounded text-black" required />
+              </div>
+            </div>
+            <button type="submit" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Create Account</button>
+            <div class="mt-4">
+              <a href="#" (click)="showLoginForm()" class="text-sm text-blue-500">Already a user? Login...</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  

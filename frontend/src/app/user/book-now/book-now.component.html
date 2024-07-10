@@ -19,26 +19,32 @@
                   <label for="lastName" class="block text-sm font-bold mb-2">Last Name</label>
                   <input formControlName="lastName" type="text" class="w-full py-2 px-3 rounded text-black" />
                 </div>
-                <div *ngIf="ticket.get('addNew')?.value">
-                  <button type="button" (click)="addTicket()" class="bg-black text-white py-2 px-4 rounded">Add Another Ticket</button>
+                <div class="flex justify-between">
+                    <div *ngIf="tickets.length > 1">
+                        <button type="button" (click)="removeTicket(i)" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-400">Remove Ticket</button>
+                    </div>
+                  <div *ngIf="ticket.get('addNew')?.value">
+                    <button type="button" (click)="addTicket()" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Add Another Ticket</button>
+                  </div>
+                  
                 </div>
               </div>
             </div>
           </form>
         </div>
         <div class="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">{{ event.name }}</h2>
-          <p class="text-lg mb-2"><strong>Category:</strong> {{ event.category }}</p>
-          <p class="text-lg mb-2"><strong>Pricing:</strong> {{ event.pricing }}</p>
-          <p class="text-lg mb-2"><strong>Tickets Remaining:</strong> {{ event.tickets }}</p>
-          <p class="text-lg mb-4"><strong>Description:</strong> {{ event.description }}</p>
+          <h2 class="text-2xl font-bold mb-4">{{ selectevent?.name }}</h2>
+          <p class="text-lg mb-2"><strong>Category:</strong> {{ selectevent?.category }}</p>
+          <p class="text-lg mb-2"><strong>Pricing:</strong> {{ selectevent?.pricing }}</p>
+          <p class="text-lg mb-2"><strong>Tickets Remaining:</strong> {{ selectevent?.tickets }}</p>
+          <p class="text-lg mb-4"><strong>Description:</strong> {{ selectevent?.description }}</p>
           <h3 class="text-xl font-bold mb-2">Total Tickets: {{ tickets.length }}</h3>
           <h3 class="text-xl font-bold mb-2">Total Price: ${{ calculateTotalPrice() }}</h3>
           <div class="mb-4 mt-10">
             <label for="phoneNumber" class="block text-sm font-bold mb-2">Billing Phone Number</label>
             <input formControlName="phoneNumber" type="text" class="w-full py-2 px-3 rounded" />
           </div>
-          <button (click)="onSubmit()" class="bg-black text-white py-2 px-4 rounded">Confirm and Pay</button>
+          <button (click)="onSubmit()" class="bg-black text-white py-2 px-4 rounded hover:bg-black/45">Confirm and Pay</button>
         </div>
       </div>
     </div>

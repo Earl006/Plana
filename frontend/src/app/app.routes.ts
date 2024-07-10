@@ -8,6 +8,8 @@ import { EventDetailsComponent } from './user/event-details/event-details.compon
 import { WishlistComponent } from './user/wishlist/wishlist.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookNowComponent } from './user/book-now/book-now.component';
+import { AuthComponent } from './global/auth/auth.component';
+
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,7 +18,10 @@ export const routes: Routes = [
     { path: 'events', component: EventsComponent },
     { path: 'eventdetails/:id', component: EventDetailsComponent },
     { path: 'wishlist', component: WishlistComponent },
-    {path: 'book-now', component: BookNowComponent}
+    { path: 'book-now/:id', component: BookNowComponent},
+    { path: 'login', component: AuthComponent, data: { mode: 'login' } },
+    { path: 'register', component: AuthComponent, data: { mode: 'register' } },
+    
 
     // other routes
   ];

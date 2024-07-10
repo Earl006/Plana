@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WishlistService } from '../services/wishlist.service';
 
 
@@ -17,7 +17,7 @@ interface Event {
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.css'
 })

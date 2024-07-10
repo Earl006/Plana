@@ -25,7 +25,7 @@
             </svg>
             {{ isInWishlist() ? 'Remove from Wishlist' : 'Add to Wishlist' }}
           </button>
-          <button class="bg-black text-white font-semibold py-2 px-4 transition duration-300 hover:bg-black/50 w-full">
+          <button [routerLink]="['/book-now', selectevent.id]" class="bg-black text-white font-semibold py-2 px-4 transition duration-300 hover:bg-black/50 w-full">
             Book Now
           </button>
         </div>
