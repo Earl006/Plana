@@ -1,0 +1,46 @@
+<section class="py-16 text-center text-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+            <div formArrayName="tickets">
+              <div *ngFor="let ticket of tickets.controls; let i = index" [formGroupName]="i" class="mb-4 p-4 bg-gray-800 rounded-lg shadow-lg">
+                <div class="mb-4">
+                  <label for="ticketType" class="block text-sm font-bold mb-2">Ticket Type</label>
+                  <select formControlName="ticketType" class="w-full py-2 px-3 rounded text-black">
+                    <option class="text-black" *ngFor="let type of ticketTypes" [value]="type">{{ type }}</option>
+                  </select>
+                </div>
+                <div class="mb-4">
+                  <label for="firstName" class="block text-sm font-bold mb-2">First Name</label>
+                  <input formControlName="firstName" type="text" class="w-full py-2 px-3 rounded text-black" />
+                </div>
+                <div class="mb-4">
+                  <label for="lastName" class="block text-sm font-bold mb-2">Last Name</label>
+                  <input formControlName="lastName" type="text" class="w-full py-2 px-3 rounded text-black" />
+                </div>
+                <div *ngIf="ticket.get('addNew')?.value">
+                  <button type="button" (click)="addTicket()" class="bg-black text-white py-2 px-4 rounded">Add Another Ticket</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="p-4 bg-gray-800 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold mb-4">{{ event.name }}</h2>
+          <p class="text-lg mb-2"><strong>Category:</strong> {{ event.category }}</p>
+          <p class="text-lg mb-2"><strong>Pricing:</strong> {{ event.pricing }}</p>
+          <p class="text-lg mb-2"><strong>Tickets Remaining:</strong> {{ event.tickets }}</p>
+          <p class="text-lg mb-4"><strong>Description:</strong> {{ event.description }}</p>
+          <h3 class="text-xl font-bold mb-2">Total Tickets: {{ tickets.length }}</h3>
+          <h3 class="text-xl font-bold mb-2">Total Price: ${{ calculateTotalPrice() }}</h3>
+          <div class="mb-4 mt-10">
+            <label for="phoneNumber" class="block text-sm font-bold mb-2">Billing Phone Number</label>
+            <input formControlName="phoneNumber" type="text" class="w-full py-2 px-3 rounded" />
+          </div>
+          <button (click)="onSubmit()" class="bg-black text-white py-2 px-4 rounded">Confirm and Pay</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  

@@ -6,6 +6,8 @@ import { EventsComponent } from './user/events/events.component';
 import { CommonModule } from '@angular/common';
 import { EventDetailsComponent } from './user/event-details/event-details.component';
 import { WishlistComponent } from './user/wishlist/wishlist.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BookNowComponent } from './user/book-now/book-now.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,12 +16,13 @@ export const routes: Routes = [
     { path: 'events', component: EventsComponent },
     { path: 'eventdetails/:id', component: EventDetailsComponent },
     { path: 'wishlist', component: WishlistComponent },
+    {path: 'book-now', component: BookNowComponent}
 
     // other routes
   ];
 
   @NgModule({
-    imports: [RouterModule.forRoot(routes), CommonModule],
+    imports: [RouterModule.forRoot(routes), CommonModule, ReactiveFormsModule],
     exports: [RouterModule]
   })
   export class AppRoutingModule { }
