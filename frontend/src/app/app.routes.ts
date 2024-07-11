@@ -9,6 +9,7 @@ import { WishlistComponent } from './user/wishlist/wishlist.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookNowComponent } from './user/book-now/book-now.component';
 import { AuthComponent } from './global/auth/auth.component';
+import { MyBookingsComponent } from './user/my-bookings/my-bookings.component';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
     { path: 'book-now/:id', component: BookNowComponent},
     { path: 'login', component: AuthComponent, data: { mode: 'login' } },
     { path: 'register', component: AuthComponent, data: { mode: 'register' } },
+    { path:'my-bookings', component: MyBookingsComponent},
     
 
     // other routes
