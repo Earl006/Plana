@@ -13,6 +13,7 @@ import { AuthComponent } from './global/auth/auth.component';
 import { MyBookingsComponent } from './user/my-bookings/my-bookings.component';
 import { ResetPasswordComponent } from './global/reset-password/reset-password.component';
 import { EditProfileComponent } from './global/auth/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './global/auth/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'my-bookings', component: MyBookingsComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'profile', component: EditProfileComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
   // other routes
 ];
 
