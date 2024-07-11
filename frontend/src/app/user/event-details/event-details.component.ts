@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WishlistService } from '../services/wishlist.service';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 
 interface Event {
@@ -17,7 +18,7 @@ interface Event {
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,NavbarComponent],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.css'
 })

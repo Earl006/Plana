@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   standalone:true,
-  imports:[ReactiveFormsModule],
+  imports:[ReactiveFormsModule, NavbarComponent],
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent implements OnInit {

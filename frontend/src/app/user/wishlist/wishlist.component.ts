@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 interface Event {
   id: number; // Add the 'id' property
@@ -16,7 +17,7 @@ interface Event {
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NavbarComponent],
   styleUrls: ['./wishlist.component.css']
 })
 export class WishlistComponent implements OnInit {

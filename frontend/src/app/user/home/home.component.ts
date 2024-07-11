@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service';
 
 import { Router, RouterModule } from '@angular/router';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 interface Event {
   inWishlist: boolean;
@@ -17,7 +18,7 @@ interface Event {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule,RouterModule, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

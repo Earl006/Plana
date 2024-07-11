@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   standalone:true,
-  imports:[ReactiveFormsModule],
+  imports:[ReactiveFormsModule, NavbarComponent],
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {

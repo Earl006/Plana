@@ -2,18 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, RouterModule, FormsModule,CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, RouterModule, FormsModule,CommonModule, NavbarComponent],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
   requestCodeForm: FormGroup;
   resetPasswordForm: FormGroup;
-  isCodeRequested = true;
+  isCodeRequested = false;
 
   constructor(private fb: FormBuilder) {
     this.requestCodeForm = this.fb.group({

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 interface Event {
   id: number;
@@ -16,7 +17,7 @@ interface Event {
   selector: 'app-book-now',
   templateUrl: './book-now.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,NavbarComponent],
   styleUrls: ['./book-now.component.css']
 })
 export class BookNowComponent implements OnInit {

@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   standalone:true,
-  imports:[CommonModule,FormsModule,RouterModule],
+  imports:[CommonModule,FormsModule,RouterModule, NavbarComponent],
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {

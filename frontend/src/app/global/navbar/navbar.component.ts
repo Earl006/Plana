@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
 })
 export class NavbarComponent implements OnInit {
   isScrolled = false;
-  isLoggedIn = true; // You should replace this with actual auth logic
+  isLoggedIn = false; // You should replace this with actual auth logic
 
   constructor(private router: Router) {}
 

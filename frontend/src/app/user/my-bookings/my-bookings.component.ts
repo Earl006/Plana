@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 interface Booking {
   eventName: string;
@@ -21,7 +22,7 @@ interface Ticket {
   selector: 'app-my-bookings',
   templateUrl: './my-bookings.component.html',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, CommonModule, ConfirmModalComponent],
+  imports: [CurrencyPipe, DatePipe, CommonModule, ConfirmModalComponent, NavbarComponent],
   styleUrls: ['./my-bookings.component.css']
 })
 export class MyBookingsComponent implements OnInit {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service'; 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 
 interface Event {
@@ -18,7 +19,7 @@ interface Event {
   selector: 'app-events',
   templateUrl: './events.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NavbarComponent],
   styleUrls: ['./events.component.css']
 })
 export class EventsComponent implements OnInit {
