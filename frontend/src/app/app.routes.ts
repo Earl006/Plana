@@ -12,6 +12,7 @@ import { BookNowComponent } from './user/book-now/book-now.component';
 import { AuthComponent } from './global/auth/auth.component';
 import { MyBookingsComponent } from './user/my-bookings/my-bookings.component';
 import { ResetPasswordComponent } from './global/reset-password/reset-password.component';
+import { EditProfileComponent } from './global/auth/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'register', component: AuthComponent, data: { mode: 'register' } },
   { path: 'my-bookings', component: MyBookingsComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'profile', component: EditProfileComponent },
   // other routes
 ];
 

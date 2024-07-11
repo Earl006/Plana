@@ -35,6 +35,8 @@
         <div class="py-1">
           <ng-container *ngIf="isLoggedIn; else loggedOut">
             <a routerLink="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60">Edit Profile</a>
+            <a routerLink="/change-password" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60">Change Password</a>
+
             <a (click)="logout()" class="block px-4 py-2 text-sm text-white hover:bg-[#010A1A]/60 cursor-pointer">Logout</a>
           </ng-container>
           <ng-template #loggedOut>
