@@ -31,7 +31,7 @@
               <button (click)="editEvent(event.id)" class="bg-blue-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-blue-700 rounded">
                 Edit Event
               </button>
-              <button (click)="manageAttendees(event.id)" class="bg-purple-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-purple-700 rounded">
+              <button [routerLink]="['/attendee-lists']" [queryParams]="{ eventId: event.id }" class="bg-purple-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-purple-700 rounded">
                 Manage Attendees
               </button>
             </div>
