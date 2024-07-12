@@ -20,6 +20,7 @@ import { MyEventsComponent } from './event-manager/my-events/my-events.component
 import { AddEventComponent } from './event-manager/add-event/add-event.component';
 import { EditEventComponent } from './event-manager/edit-event/edit-event.component';
 import { AtendeeListsComponent } from './event-manager/atendee-lists/atendee-lists.component';
+import { MyCalendarComponent } from './event-manager/my-calendar/my-calendar.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -39,7 +40,8 @@ export const routes: Routes = [
   { path: 'my-events', component: MyEventsComponent },
   { path: 'add-event', component: AddEventComponent },
   { path: 'edit-event/:id', component: EditEventComponent },
-  { path: 'attendee-lists', component:AtendeeListsComponent}
+  { path: 'attendee-lists', component:AtendeeListsComponent},
+  { path: 'my-calendar', component: MyCalendarComponent },
   // other routes
 ];
 
