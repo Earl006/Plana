@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SidebarComponent } from '../global/sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SidebarComponent, TopbarComponent, CommonModule, DatePipe],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, DatePipe, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  managerName = 'John Doe'; // Replace with actual manager name from your data source
-  totalEvents = 12; // Replace with actual data
-  totalAttendees = 345; // Replace with actual data
-  revenue = 12345; // Replace with actual data
+  managerName = 'John Doe'; 
+  totalEvents = 12; 
+  totalAttendees = 345;
+  revenue = 12345; 
   recentActivities = [
     'Added a new event: Annual Conference',
     'Updated event details for: Summer Festival',

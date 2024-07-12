@@ -1,0 +1,71 @@
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<section class="py-16 px-4 min-h-screen flex justify-center items-start">
+  <div class="w-full max-w-3xl bg-gray-800 text-white shadow-lg rounded-lg p-8">
+    <h2 class="text-2xl font-bold mb-6">Edit Event</h2>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="space-y-6">
+        <!-- Event Title -->
+        <div class="flex flex-col">
+          <label for="title" class="mb-2">Title</label>
+          <input id="title" type="text" formControlName="title" class="p-2 bg-gray-700 rounded-lg">
+        </div>
+        <!-- Event Description -->
+        <div class="flex flex-col">
+          <label for="description" class="mb-2">Description</label>
+          <textarea id="description" formControlName="description" class="p-2 bg-gray-700 rounded-lg"></textarea>
+        </div>
+        <!-- Event Date -->
+        <div class="flex flex-col">
+          <label for="date" class="mb-2">Date</label>
+          <input id="date" type="datetime-local" formControlName="date" class="p-2 bg-gray-700 rounded-lg">
+        </div>
+        <!-- Event Location -->
+        <div class="flex flex-col">
+          <label for="location" class="mb-2">Location</label>
+          <input id="location" type="text" formControlName="location" class="p-2 bg-gray-700 rounded-lg">
+        </div>
+        <!-- Event Category -->
+        <div class="flex flex-col">
+          <label for="categoryId" class="mb-2">Category</label>
+          <select id="categoryId" formControlName="categoryId" class="p-2 bg-gray-700 rounded-lg">
+            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+          </select>
+        </div>
+        <!-- Event Poster -->
+        <div class="flex flex-col">
+          <label for="poster" class="mb-2">Event Poster</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="p-2 bg-gray-700 rounded-lg">
+        </div>
+        <!-- Tickets -->
+        <div formArrayName="tickets" class="space-y-6">
+          <h3 class="text-xl font-semibold">Tickets</h3>
+          <button type="button" (click)="addTicket()" class="bg-blue-700 h-10 rounded-3xl w-56 hover:bg-blue-500">Add Ticket</button>
+          <div *ngFor="let ticket of tickets.controls; let i = index" [formGroupName]="i" class="bg-gray-700 p-4 rounded-lg space-y-4">
+            <div class="flex flex-col">
+              <label>Type</label>
+              <input type="text" formControlName="type" class="p-2 bg-gray-600 rounded-lg">
+            </div>
+            <div class="flex flex-col">
+              <label>Price</label>
+              <input type="number" formControlName="price" class="p-2 bg-gray-600 rounded-lg">
+            </div>
+            <div class="flex flex-col">
+              <label>Quantity</label>
+              <input type="number" formControlName="quantity" class="p-2 bg-gray-600 rounded-lg">
+            </div>
+            <button type="button" (click)="removeTicket(i)" class="text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Submit Button -->
+        <div class="flex justify-end mt-6">
+          <button type="submit" [disabled]="!eventForm.valid" class="bg-black hover:bg-black/45 h-10 rounded-lg w-56">Update Event</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

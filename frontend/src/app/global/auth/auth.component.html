@@ -9,9 +9,10 @@
         <h2 class="text-3xl font-bold mb-6 text-white text-center">Login</h2>
         <form class="space-y-4 w-full max-w-sm">
           <input type="email" placeholder="Email" class="w-full p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
-          <input type="password" placeholder="Password" class="w-full mb-2 p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
-          <a [routerLink]="['/reset-password']" class="mt-5 text-center text-gray-300 hover:text-cyan-300 cursor-pointer">Forgot your Password? Click Here</a>
-          <button type="submit" class="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-900 transition">Login</button>
+          <input type="password" placeholder="Password" class="w-full mb-6 p-2 border rounded bg-gray-700 text-white placeholder-gray-400 focus:outline-none" required>
+        <div class="mt-5">  <a [routerLink]="['/reset-password']" class="mt-5 text-center text-gray-300 hover:text-cyan-300 cursor-pointer">Forgot your Password? Click Here</a>
+        </div>
+        <button type="submit" class="w-full py-2 px-4 bg-black text-white rounded hover:bg-gray-900 transition">Login</button>
         </form>
       </div>
   
@@ -44,7 +45,7 @@
         <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center px-8 bg-gradient-to-t from-blue-900 to-blue-600 text-white transition-opacity duration-300 ease-in-out"
              [ngClass]="{'opacity-0': isLoginView}">
           <h1 class="text-4xl font-bold mb-2 text-center">Hello! Welcome to Plana</h1>
-          <img src="/carousel-img/undraw_sign_up_n6im.svg" alt="Sign Up" class="pb-5 h-80">
+          <img src="/carousel-img/undraw_sign_up_n6im.svg" alt="Sign Up" class="pb-5 h-60">
           <p class="text-xl mb-4 text-center">Already a member?</p>
           <button (click)="toggleView()" class="py-2 px-6 bg-black text-white rounded-full hover:bg-gray-900 transition">Login</button>
         </div>
