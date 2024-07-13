@@ -21,6 +21,7 @@ import { AddEventComponent } from './event-manager/add-event/add-event.component
 import { EditEventComponent } from './event-manager/edit-event/edit-event.component';
 import { AtendeeListsComponent } from './event-manager/atendee-lists/atendee-lists.component';
 import { MyCalendarComponent } from './event-manager/my-calendar/my-calendar.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'; 
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -46,7 +47,8 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), CommonModule, ReactiveFormsModule, BrowserAnimationsModule],
+  imports: [RouterModule.forRoot(routes), CommonModule, ReactiveFormsModule, BrowserAnimationsModule,],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
