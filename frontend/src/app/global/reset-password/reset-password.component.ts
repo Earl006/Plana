@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,8 +16,10 @@ export class ResetPasswordComponent {
   requestCodeForm: FormGroup;
   resetPasswordForm: FormGroup;
   isCodeRequested = false;
+  successMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.requestCodeForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -41,7 +44,24 @@ export class ResetPasswordComponent {
 
   onRequestCode() {
     if (this.requestCodeForm.valid) {
-      // Handle the request reset code logic
+      this.authService.requestPasswordReset(this.requestCodeForm.value).subscribe(
+        response => {
+          this.successMessage = 'Reset code has been sent to your email';
+          this.errorMessage = '';
+          setTimeout(() => {
+            this.clearMessages();
+          },3000);
+          console.log(response);
+        },
+        error => {
+          this.errorMessage = error.error.message;
+          this.successMessage = '';
+          setTimeout(() => {
+            this.clearMessages();
+          },3000);
+          console.error(error);
+        }
+      );
       console.log(this.requestCodeForm.value);
       this.isCodeRequested = true;  // Slide to the next form
     }
@@ -49,9 +69,31 @@ export class ResetPasswordComponent {
 
   onResetPassword() {
     if (this.resetPasswordForm.valid) {
-      // Handle the reset password logic
+      this.authService.resetPassword(this.resetPasswordForm.value).subscribe(
+        response => {
+          this.successMessage = 'Password reset successfully';
+          this.errorMessage = '';
+          setTimeout(() => {
+            this.clearMessages();
+            this.router.navigate(['/login']);
+          },3000);
+          console.log(response);
+        },
+        error => {
+          this.errorMessage = error.error.message;
+          this.successMessage = '';
+          setTimeout(() => {
+            this.clearMessages();
+          },3000);
+          console.error(error);
+        }
+      );
       console.log(this.resetPasswordForm.value);
     }
+  }
+  clearMessages() {
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 
 }

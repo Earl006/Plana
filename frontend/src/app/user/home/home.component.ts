@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service';
 
 import { Router, RouterModule } from '@angular/router';
@@ -103,13 +103,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentPage: number = 1;
   totalPages: number = 1;
   paginatedEvents: Event[] = [];
+  isLoggedIn = false;
 
-  constructor(private router: Router, private wishlistService: WishlistService) {}
+
+  constructor(private router: Router, private wishlistService: WishlistService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.startRandomSlideShow();
     this.totalPages = Math.ceil(this.events.length / this.eventsPerPage);
     this.updatePaginatedEvents();
+    this.checkLoginStatus();
   }
 
   updatePaginatedEvents(): void {
@@ -126,6 +129,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentPage--;
       this.updatePaginatedEvents();
     }
+  }
+  checkLoginStatus() {
+    const token = localStorage.getItem('authToken');
+    this.isLoggedIn = !!token;
+    console.log(this.isLoggedIn , token);
+    this.cd.detectChanges();
   }
 
   nextPage(): void {

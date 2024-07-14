@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
 })
 export class NavbarComponent implements OnInit {
   isScrolled = false;
-  isLoggedIn = true; // You should replace this with actual auth logic
+  isLoggedIn = false;
 
   constructor(private router: Router) {}
 
@@ -27,9 +27,12 @@ export class NavbarComponent implements OnInit {
       }
     });
 
-    // Here you would typically check if the user is logged in
-    // For example:
-    // this.isLoggedIn = this.authService.isLoggedIn();
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus() {
+    const token = localStorage.getItem('authToken');
+    this.isLoggedIn = !!token;
   }
 
   @HostListener('window:scroll', [])
@@ -38,11 +41,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    // Implement logout logic here
-    // For example:
-    // this.authService.logout();
-    // this.isLoggedIn = false;
-    // this.router.navigate(['/']);
-    console.log('Logout clicked');
+    localStorage.removeItem('authToken');
+    this.isLoggedIn = false;
+    window.location.reload();
+    this.router.navigate(['/']);
   }
 }

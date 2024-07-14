@@ -53,7 +53,7 @@ export class AuthService {
         lastName,
         phoneNumber,
         role: 'ATTENDEE', // Default role as string
-        managerRequestStatus: 'PENDING', // Default status as string
+        managerRequestStatus: 'NOT-REQUESTED', // Default status as string
       },
     });
 

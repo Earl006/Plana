@@ -16,7 +16,7 @@ model User {
   lastName             String
   avatarUrl            String    @default("https://static.vecteezy.com/system/resources/previews/005/545/335/non_2x/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg")
   role                 String    @default("ATTENDEE")
-  managerRequestStatus String?   @default("PENDING")
+  managerRequestStatus String?   @default("NOT-REQUESTED")
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
   resetToken           String?

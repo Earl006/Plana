@@ -55,7 +55,11 @@ export class AuthComponent {
       };
       this.authService.login(credentials).subscribe(
         response => {
-          localStorage.setItem('authToken', response.token);
+          localStorage.setItem('authToken', response.result.token);
+          localStorage.setItem('userId', response.result.user.id);
+          
+          
+          
           this.successMessage = 'Login successful!';
           this.errorMessage = '';
   

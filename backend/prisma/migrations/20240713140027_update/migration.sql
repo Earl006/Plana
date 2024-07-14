@@ -1,0 +1,20 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[User] DROP CONSTRAINT [User_managerRequestStatus_df];
+ALTER TABLE [dbo].[User] ADD CONSTRAINT [User_managerRequestStatus_df] DEFAULT 'NOT-REQUESTED' FOR [managerRequestStatus];
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

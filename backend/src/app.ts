@@ -5,9 +5,16 @@ import userRoutes from './routes/user.routes';
 import categoryRoutes from './routes/category.routes';
 import eventRoutes from './routes/event.routes';
 import bookingRoutes from './routes/booking.routes';
+const cors = require('cors');
 
 const app = express();
 export const prisma = new PrismaClient();
+
+app.use(cors({
+    origin: 'http://localhost:4200', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'] 
+  }));
 
 app.use(express.json());
 

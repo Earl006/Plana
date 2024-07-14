@@ -1,5 +1,5 @@
 POST http://localhost:3000/api/booking/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4YWU4YjVhMi0wMmYzLTQxZTEtYWEwOC1kYTE3ZDZiYmQwY2QiLCJlbWFpbCI6ImFuZ2VsYWtvbHdhQGdtYWlsLmNvbSIsInBob25lTnVtYmVyIjoiKzI1NDcxMjM0NTY3OCIsImZpcnN0TmFtZSI6IkFuZ2VsYSIsImxhc3ROYW1lIjoiS29sd2EiLCJyb2xlIjoiQVRURU5ERUUiLCJpYXQiOjE3MjAzMDc3NzQsImV4cCI6MTcyMDMxMTM3NH0.V-XPEuIVFLJ4yMCf390DsNvKStXRe9hnvfv1eJQXlFk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4YWU4YjVhMi0wMmYzLTQxZTEtYWEwOC1kYTE3ZDZiYmQwY2QiLCJlbWFpbCI6ImFuZ2VsYWtvbHdhQGdtYWlsLmNvbSIsInBob25lTnVtYmVyIjoiKzI1NDcxMjM0NTY3OCIsImZpcnN0TmFtZSI6IkFuZ2VsYSIsImxhc3ROYW1lIjoiS29sd2EiLCJyb2xlIjoiQVRURU5ERUUiLCJpYXQiOjE3MjA3ODU3MTksImV4cCI6MTcyMDc4OTMxOX0.ct6khAbAPrcdg91XcyGK2Ewb9kyBZcFKNbHYU1D_AUA
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
   "quantity": 2,
   "attendeeDetails": [
     {
-      "firstName": "Earljoe",
+      "firstName": "Wekesa",
       "lastName": "Kadima"
     }
   ]
@@ -17,10 +17,10 @@ Content-Type: application/json
 
 ###VERIFY BOOKING
 GET http://localhost:3000/api/booking/verify/258ca02a-9416-47ff-88bf-2e48738c2876
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4YWU4YjVhMi0wMmYzLTQxZTEtYWEwOC1kYTE3ZDZiYmQwY2QiLCJlbWFpbCI6ImFuZ2VsYWtvbHdhQGdtYWlsLmNvbSIsInBob25lTnVtYmVyIjoiKzI1NDcxMjM0NTY3OCIsImZpcnN0TmFtZSI6IkFuZ2VsYSIsImxhc3ROYW1lIjoiS29sd2EiLCJyb2xlIjoiQVRURU5ERUUiLCJpYXQiOjE3MjAzMDc3NzQsImV4cCI6MTcyMDMxMTM3NH0.V-XPEuIVFLJ4yMCf390DsNvKStXRe9hnvfv1eJQXlFk
+Authorization: Bearer 
 Content-Type: application/json
 
 {
-    "verificationCode": "ZG2A3KGPZ2"
+    "verificationCode": "XX2RKYHV7B"
 }
 

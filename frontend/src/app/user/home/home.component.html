@@ -10,17 +10,28 @@
         <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-white text-center">
           <h2 class="text-4xl font-bold mb-4">{{ slide.title }}</h2>
           <p class="text-xl mb-8">{{ slide.text }}</p>
-          <a routerLink="/login" class="inline-flex cursor-pointer items-center bg-black text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
-            <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
-            <span class="relative z-10 flex items-center">
-              GET STARTED  
-            </span>
-          </a>
+          <ng-container *ngIf="isLoggedIn; else loggedOut">
+              <a routerLink="/events" class="inline-flex cursor-pointer items-center bg-black text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
+                <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
+                <span class="relative z-10 flex items-center">
+                  EXPLORE EVENTS
+                </span>
+              </a>
+            </ng-container>
+            <ng-template #loggedOut>
+              <a routerLink="/login" class="inline-flex cursor-pointer items-center bg-black text-white font-semibold py-3 px-6 shadow-lg overflow-hidden relative group hover:bg-gray-800 transition duration-300">
+                <span class="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-50 transition duration-300"></span>
+                <span class="relative z-10 flex items-center">
+                  GET STARTED  
+                </span>
+              </a>
+            </ng-template>
+          </div>
+          
 
         </div>
       </div>
-    </div>
-    <button (click)="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+        <button (click)="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>

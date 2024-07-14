@@ -50,4 +50,21 @@ export class AuthService {
       })
     });
   }
+  getUserId(): string | null {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.userId || null;
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+      }
+    }
+    return null;
+  }
 }
+function jwt_decode(token: string): any {
+  throw new Error('Function not implemented.');
+}
+

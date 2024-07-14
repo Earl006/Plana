@@ -1,6 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service'; 
+import { UserService } from '../../services/user.service';
+
 
 @Component({
   selector: 'app-topbar',
@@ -13,15 +16,24 @@ export class TopbarComponent implements OnInit {
   currentDate = new Date();
   currentTime = new Date();
   greeting: string | undefined;
-  managerName = 'John Doe'; // Replace with actual manager name from your data source
+  managerName: string = ''; 
+  userId: string = '';
 
-  constructor() {
+  constructor(private authService: AuthService, private userService: UserService) {
     this.updateTime();
   }
+  
 
   ngOnInit(): void {
     this.setGreeting();
+    this.userId = this.authService.getUserId()!;
   }
+
+  loadManagerName() {
+    this.userService.getUserById(this.userId).subscribe(user => {
+      this.managerName = user.firstName + ' ' + user.lastName;
+    }
+  )};
 
   setGreeting(): void {
     const currentHour = new Date().getHours();
