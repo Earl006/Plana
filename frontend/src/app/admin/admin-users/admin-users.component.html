@@ -1,0 +1,99 @@
+<div class="flex">
+    <app-admin-sidebar class="fixed left-0 top-0 h-full"></app-admin-sidebar>
+    <div class="flex flex-col w-full mr-32 h-screen">
+      <app-topbar class="fixed top-0 right-0 left-20 z-10"></app-topbar>
+      <div class="container px-4 py-8 mt-16 mx-20 mr-20">
+        <h1 class="text-3xl font-bold mb-6 text-white">User Management</h1>
+      
+        <!-- Filter and Search -->
+        <div class="mb-6 flex justify-between items-center">
+          <div class="flex space-x-4">
+            <select [(ngModel)]="selectedRole" (change)="filterUsers()" class="bg-gray-800 text-white border border-gray-700 rounded-md px-3 py-2">
+              <option value="">All Roles</option>
+              <option value="EVENT_MANAGER">Event Manager</option>
+              <option value="ATTENDEE">Attendee</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+            <input [(ngModel)]="searchTerm" (input)="filterUsers()" type="text" placeholder="Search users..." class="bg-gray-800 text-white border border-gray-700 rounded-md px-3 py-2">
+          </div>
+          <button (click)="exportUsers()" class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700">Export Users</button>
+        </div>
+      
+        <!-- User Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full bg-gray-900 shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-800">
+              <tr>
+                <th class="px-4 py-2 text-left text-white">Avatar</th>
+                <th class="px-4 py-2 text-left text-white">Name</th>
+                <th class="px-4 py-2 text-left text-white">Email</th>
+                <th class="px-4 py-2 text-left text-white">Phone</th>
+                <th class="px-4 py-2 text-left text-white">Role</th>
+                <th class="px-4 py-2 text-left text-white">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of filteredUsers" class="border-b border-gray-800 hover:bg-gray-800">
+                <td class="px-4 py-2">
+                  <img [src]="user.avatarUrl" alt="User Avatar" class="w-10 h-10 rounded-full">
+                </td>
+                <td class="px-4 py-2 text-white">{{ user.firstName }} {{ user.lastName }}</td>
+                <td class="px-4 py-2 text-white">{{ user.email }}</td>
+                <td class="px-4 py-2 text-white">{{ user.phoneNumber }}</td>
+                <td class="px-4 py-2">
+                  <span [ngClass]="{
+                    'bg-blue-900 text-blue-200': user.role === 'EVENT_MANAGER',
+                    'bg-green-900 text-green-200': user.role === 'ATTENDEE',
+                    'bg-red-900 text-red-200': user.role === 'ADMIN'
+                  }" class="px-2 py-1 rounded-full text-sm">
+                    {{ user.role }}
+                  </span>
+                </td>
+                <td class="px-4 py-2">
+                  <button (click)="openChangeRoleModal(user)" class="text-blue-400 hover:text-blue-300 mr-8">Change Role</button>
+                  <button (click)="openDeleteConfirmModal(user)" class="text-red-400 hover:text-red-300"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0,0,256,256">
+                    <g fill="#fffcfc" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8.53333,8.53333)"><path d="M14.98438,2.48633c-0.55152,0.00862 -0.99193,0.46214 -0.98437,1.01367v0.5h-5.5c-0.26757,-0.00363 -0.52543,0.10012 -0.71593,0.28805c-0.1905,0.18793 -0.29774,0.44436 -0.29774,0.71195h-1.48633c-0.36064,-0.0051 -0.69608,0.18438 -0.87789,0.49587c-0.18181,0.3115 -0.18181,0.69676 0,1.00825c0.18181,0.3115 0.51725,0.50097 0.87789,0.49587h18c0.36064,0.0051 0.69608,-0.18438 0.87789,-0.49587c0.18181,-0.3115 0.18181,-0.69676 0,-1.00825c-0.18181,-0.3115 -0.51725,-0.50097 -0.87789,-0.49587h-1.48633c0,-0.26759 -0.10724,-0.52403 -0.29774,-0.71195c-0.1905,-0.18793 -0.44836,-0.29168 -0.71593,-0.28805h-5.5v-0.5c0.0037,-0.2703 -0.10218,-0.53059 -0.29351,-0.72155c-0.19133,-0.19097 -0.45182,-0.29634 -0.72212,-0.29212zM6,9l1.79297,15.23438c0.118,1.007 0.97037,1.76563 1.98438,1.76563h10.44531c1.014,0 1.86538,-0.75862 1.98438,-1.76562l1.79297,-15.23437z"></path></g></g>
+                  </svg></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+        <!-- Pagination -->
+        <div class="mt-4 flex justify-center">
+          <button (click)="previousPage()" [disabled]="currentPage === 1" class="px-4 py-2 bg-gray-800 text-white rounded-l-md disabled:opacity-50">Previous</button>
+          <span class="px-4 py-2 bg-gray-700 text-white">Page {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-4 py-2 bg-gray-800 text-white rounded-r-md disabled:opacity-50">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Change Role Modal -->
+  <div *ngIf="showChangeRoleModal" class="fixed inset-0 bg-black w-full bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-bold mb-4 text-white">Change User Role</h2>
+      <p class="text-white">Current role: {{ selectedUser?.role }}</p>
+      <select [(ngModel)]="newRole" class="w-full bg-gray-800 text-white border border-gray-700 rounded-md px-3 py-2 mt-2">
+        <option value="EVENT_MANAGER">Event Manager</option>
+        <option value="ATTENDEE">Attendee</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+      <div class="mt-4 flex justify-end space-x-2">
+        <button (click)="closeChangeRoleModal()" class="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">Cancel</button>
+        <button (click)="changeUserRole()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showDeleteConfirmModal" class="fixed inset-0 bg-black w-full bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-bold mb-4 text-white">Confirm User Deletion</h2>
+      <p class="text-white mb-4">Are you sure you want to delete the user {{ userToDelete?.firstName }} {{ userToDelete?.lastName }}?</p>
+      <p class="text-red-400 mb-4">This action cannot be undone.</p>
+      <div class="mt-4 flex justify-end space-x-2">
+        <button (click)="closeDeleteConfirmModal()" class="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">Cancel</button>
+        <button (click)="confirmDeleteUser()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Delete</button>
+      </div>
+    </div>

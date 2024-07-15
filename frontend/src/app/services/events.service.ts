@@ -10,18 +10,46 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvent(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  private getHeaders(): HttpHeaders {
+    const authToken = localStorage.getItem('authToken');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
   }
 
-  updateEvent(id: string, eventData: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put(`${this.baseUrl}/update/${id}`, eventData, { headers });
+  createEvent(eventData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create`, eventData, { headers: this.getHeaders() });
   }
 
-  updateEventPoster(id: string, poster: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('poster', poster);
-    return this.http.put(`${this.baseUrl}/update-poster/${id}`, formData);
+  getAllEvents(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/all`);
+  }
+
+  getEvent(eventId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${eventId}`);
+  }
+
+  updateEvent(eventId: string, eventData: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update/${eventId}`, eventData, { headers: this.getHeaders() });
+  }
+
+  getEventsByCategory(categoryId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/category/${categoryId}`);
+  }
+
+  getEventsByManager(managerId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/manager/${managerId}`);
+  }
+
+  getEventsByLocation(location: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/location/${location}`, { headers: this.getHeaders() });
+  }
+
+  updateEventPoster(eventId: string, posterData: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update-poster/${eventId}`, posterData, { headers: this.getHeaders() });
+  }
+
+  deleteEvent(eventId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${eventId}`, { headers: this.getHeaders() });
   }
 }

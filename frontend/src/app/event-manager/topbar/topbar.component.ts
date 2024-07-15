@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; 
 import { UserService } from '../../services/user.service';
 
@@ -19,7 +19,7 @@ export class TopbarComponent implements OnInit {
   managerName: string = ''; 
   userId: string = '';
 
-  constructor(private authService: AuthService, private userService: UserService) {
+  constructor(private authService: AuthService, private userService: UserService, private router: Router) {
     this.updateTime();
   }
   
@@ -27,11 +27,15 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.setGreeting();
     this.userId = this.authService.getUserId()!;
+    this.loadManagerName();
   }
 
   loadManagerName() {
     this.userService.getUserById(this.userId).subscribe(user => {
       this.managerName = user.firstName + ' ' + user.lastName;
+      
+      console.log(this.managerName);
+      
     }
   )};
 
@@ -52,7 +56,9 @@ export class TopbarComponent implements OnInit {
     }, 1000);
   }
 
-  logout(): void {
-    // Implement logout functionality here
+  logout() {
+    localStorage.removeItem('authToken');
+    window.location.reload();
+    this.router.navigate(['/home']);
   }
 }

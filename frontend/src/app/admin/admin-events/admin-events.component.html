@@ -1,0 +1,47 @@
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-4xl text-center font-bold mb-6">Admin - Manage Events</h2>
+  
+    <div class="flex justify-between mb-6">
+      <div>
+        <label for="category" class="block text-sm font-medium text-gray-700">Filter by Category:</label>
+        <select id="category" [(ngModel)]="selectedCategory" (change)="loadEventsByCategory(selectedCategory)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+          <option value="">All Categories</option>
+          <!-- Add your category options here -->
+          <option value="f17ff256-d6b3-4bc1-b095-fd18a3d424d0">Category 1</option>
+          <option value="another-category-id">Category 2</option>
+        </select>
+      </div>
+  
+      <div>
+        <label for="manager" class="block text-sm font-medium text-gray-700">Filter by Manager:</label>
+        <select id="manager" [(ngModel)]="selectedManager" (change)="loadEventsByManager(selectedManager)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+          <option value="">All Managers</option>
+          <!-- Add your manager options here -->
+          <option value="5de20edc-36f1-4388-a2ec-2dc61a571e10">Manager 1</option>
+          <option value="another-manager-id">Manager 2</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let event of events" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg flex flex-col h-[32rem]">
+        <div class="h-1/3 overflow-hidden">
+          <img [src]="event.posterUrl" alt="Event Poster" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4 flex flex-col justify-between flex-grow">
+          <div>
+            <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
+            <p class="text-sm mb-1">Date: {{ event.date | date:'mediumDate' }}</p>
+            <p class="text-sm mb-1">Location: {{ event.location }}</p>
+            <p class="text-sm mb-1">Category: {{ event.category.name }}</p>
+            <p class="text-sm mb-1">Manager ID: {{ event.managerId }}</p>
+            <p class="text-sm mb-1">Tickets:</p>
+            <ul class="list-disc ml-5">
+              <li *ngFor="let ticket of event.tickets">{{ ticket.type }} - {{ ticket.price | currency }} ({{ ticket.quantity }} available)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

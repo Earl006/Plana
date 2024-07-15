@@ -22,6 +22,9 @@ import { EditEventComponent } from './event-manager/edit-event/edit-event.compon
 import { AtendeeListsComponent } from './event-manager/atendee-lists/atendee-lists.component';
 import { MyCalendarComponent } from './event-manager/my-calendar/my-calendar.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'; 
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
+import { AdminEventsComponent } from './admin/admin-events/admin-events.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -43,6 +46,9 @@ export const routes: Routes = [
   { path: 'edit-event/:id', component: EditEventComponent },
   { path: 'attendee-lists', component:AtendeeListsComponent},
   { path: 'my-calendar', component: MyCalendarComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
+  { path: 'admin-users', component: AdminUsersComponent},
+  { path: 'admin-events', component:AdminEventsComponent}
   // other routes
 ];
 

@@ -68,7 +68,10 @@ export class AuthComponent {
             this.router.navigate(['/home']);
           } else if (response.result.user.role === 'EVENT_MANAGER') {
             this.router.navigate(['/dashboard']);
-          } else {
+          }else if( response.result.user.role === 'ADMIN') {
+            this.router.navigate(['/admin-dashboard']);
+          }
+           else {
             // Handle unexpected role
             console.error('Unexpected user role:', response.result.user.role);
             this.errorMessage = 'Login successful, but unable to determine user role.';
