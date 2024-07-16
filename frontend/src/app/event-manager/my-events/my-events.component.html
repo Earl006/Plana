@@ -19,13 +19,12 @@
         <div class="p-4 flex flex-col justify-between flex-grow">
           <div>
             
-            <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
-            <p class="text-sm mb-1">Date: {{ event.date | date:'mediumDate' }}</p>
-            <p class="text-sm mb-1">Time: {{ event.date | date: 'shortTime' }}</p>
-            <p class="text-sm mb-1">Venue: {{ event.location }}</p>
-            <p class="text-sm mb-1">Category: {{ event.category.name }}</p>
-            <p class="text-sm mb-1">Tickets Sold: {{ event.ticketsSold }} / {{ event.totalTickets }}</p>
-            <p class="text-sm mb-2">Revenue: {{ event.revenue | currency }}</p>
+            <h3 class="text-xl font-semibold mb-2">{{ event.title }}</h3>
+            <p class="text-gray-300 mb-2">{{ event.date | date:'medium' }}</p>
+            <p class="text-gray-300 mb-2">{{ event.location }}</p>
+            <p class="text-gray-300 mb-2">Category: {{ event.category.name }}</p>
+            <p class="text-gray-300 mb-2">Tickets Sold: {{ event.ticketsSold }} / {{ event.totalTickets }}</p>
+            <p class="text-gray-300 mb-4">Revenue: ${{ event.revenue }}</p>
           </div>
           <div class="flex flex-col space-y-2">
             <div class="flex justify-between">

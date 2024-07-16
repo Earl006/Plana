@@ -26,7 +26,12 @@ export class UserService {
   getAllUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/all/users`, { headers: this.getHeaders() });
   }
-
+  getManagers(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/manager/all`, {headers: this.getHeaders()});
+  }
+  getManagerRequests(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/manager/requests`, {headers: this.getHeaders()});
+  }
   updateUser(id: string, userData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${id}`, userData, { headers: this.getHeaders() });
   }

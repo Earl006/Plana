@@ -9,22 +9,54 @@ import { AuthService } from '../../services/auth.service';
 import { EventService } from '../../services/events.service';
 
 interface Event {
-  id: number;
+revenue: any;
+totalTickets: any;
+ticketsSold: any;
+  id: string;
   title: string;
-  date: Date;
-  time: string;
+  description: string;
+  date: string;
   location: string;
-  category: { id: string; name: string; }
-  ticketsSold: number;
-  totalTickets: number;
-  revenue: number;
+  categoryId: string;
   posterUrl: string;
+  category: {
+    id: string;
+    name: string;
+  };
+  tickets: {
+    id: string;
+    type: string;
+    price: string;
+    quantity: number;
+  }[];
+  bookings?: Booking[];
+
+}
+
+interface Booking {
+  id: string;
+  userId: string;
+  eventId: string;
+  ticketId: string;
+  quantity: number;
+  totalPrice: string;
+  status: string;
+  verificationCode: string;
+  createdAt: string;
+  updatedAt: string;
+  ticket: {
+    id: string;
+    eventId: string;
+    type: string;
+    price: string;
+    quantity: number;
+  };
 }
 
 @Component({
   selector: 'app-my-events',
   templateUrl: './my-events.component.html',
-  standalone:true,
+  standalone: true,
   imports: [CancelModalComponent, DatePipe, RouterModule, CommonModule, SidebarComponent, TopbarComponent],
   styleUrls: ['./my-events.component.css']
 })
@@ -34,37 +66,48 @@ export class MyEventsComponent implements OnInit {
   eventToCancel: Event | null = null;
   userId: string = '';
 
-  constructor(private router: Router, private authService: AuthService, private eventsService : EventService) {}
+  constructor(private router: Router, private authService: AuthService, private eventsService: EventService) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId()!;
     this.loadEvents();
   }
-  loadEvents(): void {
-    this.eventsService.getEventsByManager(this.userId).subscribe((response: any) => {
-      if (response && Array.isArray(response.events)) {
-        this.events = response.events;
-      } else {
-        console.error('Response is not an array:', response);
-      }
-    });
-  }
-  
 
-  editEvent(eventId: number): void {
+  loadEvents(): void {
+    this.eventsService.getEventsByManager(this.userId).subscribe(
+      (response: any) => {
+        if (response && Array.isArray(response.events)) {
+          this.events = response.events.map((event: Event) => ({
+            ...event,
+            ticketsSold: this.calculateTicketsSold(event),
+            totalTickets: this.calculateTotalTickets(event),
+            revenue: this.calculateRevenue(event)
+          }));
+        } else {
+          console.error('Response is not an array:', response);
+        }
+      },
+      (error) => {
+        console.error('Error loading events:', error);
+      }
+    );
+  }
+
+  editEvent(eventId: string): void {
     this.router.navigate(['/edit-event', eventId]);
   }
 
-  manageAttendees(eventId: number): void {
+  manageAttendees(eventId: string): void {
     this.router.navigate(['/manage-attendees', eventId]);
   }
 
-  viewReports(eventId: number): void {
+  viewReports(eventId: string): void {
     this.router.navigate(['/event-reports', eventId]);
   }
 
   openCancelModal(event: Event): void {
     this.eventToCancel = event;
+    console.log('Opening cancel modal for event:', this.eventToCancel);
     this.showCancelModal = true;
   }
 
@@ -72,12 +115,42 @@ export class MyEventsComponent implements OnInit {
     this.showCancelModal = false;
     this.eventToCancel = null;
   }
+  private calculateTicketsSold(event: Event): number {
+    if (!event.bookings || event.bookings.length === 0) {
+      return 0;
+    }
+  
+    return event.bookings.reduce((total, booking) => {
+      if (booking.status === 'CONFIRMED') {
+        return total + booking.quantity;
+      }
+      return total;
+    }, 0);
+  }
+  
+  private calculateTotalTickets(event: Event): number {
+    return event.tickets.reduce((total, ticket) => total + ticket.quantity, 0);
+  }
+  
+  private calculateRevenue(event: Event): number {
+    return event.tickets.reduce((total, ticket) => total + (parseInt(ticket.price) * ticket.quantity), 0);
+  }
 
   confirmCancelEvent(): void {
     if (this.eventToCancel) {
-      this.events = this.events.filter(event => event.id !== this.eventToCancel!.id);
-      this.closeCancelModal();
-      // Optionally, show a success message
+      console.log('Cancelling event:', this.eventToCancel);
+
+      this.eventsService.deleteEvent(this.eventToCancel.id).subscribe(
+        () => {
+          this.events = this.events.filter(event => event.id !== this.eventToCancel!.id);
+          this.closeCancelModal();
+          this.loadEvents();
+          // Optionally, show a success message to the user
+        },
+        (error) => {
+          console.error('Error cancelling event:', error);
+        }
+      );
     }
   }
 }

@@ -5,15 +5,17 @@
     <div class="flex flex-wrap lg:flex-nowrap">
       <!-- Left Side: Event Poster -->
       <div class="w-full lg:w-1/2 mb-4 lg:mb-0">
-        <img [src]="selectevent.img" alt="Event Poster" class="w-full h-full object-contain">
+        <img [src]="selectevent.posterUrl" alt="Event Poster" class="w-full h-full object-contain">
       </div>
       <!-- Right Side: Event Details -->
       <div class="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-between">
         <div>
-          <h1 class="text-4xl font-bold mb-4">{{ selectevent.name }}</h1>
-          <p class="text-lg mb-4"><strong>Category:</strong> {{ selectevent.category }}</p>
-          <p class="text-lg mb-4"><strong>Pricing:</strong> {{ selectevent.pricing }}</p>
-          <p class="text-lg mb-4"><strong>Tickets Remaining:</strong> {{ selectevent.tickets }}</p>
+          <h1 class="text-4xl font-bold mb-4">{{ selectevent.title }}</h1>
+          <p class="text-lg mb-4"><strong>Category:</strong> {{ selectevent.category.name }}</p>
+          <!-- <p class="text-lg mb-4"><strong>Pricing:</strong> {{ selectevent.pricing }}</p> -->
+          <p class="text-lg mb-4"><strong>Ticket Pricing:</strong> <br>{{ selectevent.tickets[0].type }}:{{ selectevent.tickets[0].price }} <br> {{selectevent.tickets[selectevent.tickets.length -1].type}}: {{selectevent.tickets[selectevent.tickets.length -1].price}}</p>
+          <p class="text-lg mb-4"><strong>Ticket Remaining:</strong> <br>{{ selectevent.tickets[0].type }}:{{ selectevent.tickets[0].quantity }} <br> {{selectevent.tickets[selectevent.tickets.length -1].type}}: {{selectevent.tickets[selectevent.tickets.length -1].quantity}}</p>
+          <p class="text-lg mb-4"><strong>Date:</strong> {{ selectevent.date | date: 'mediumDate'}}</p>
           <p class="text-lg mb-4"><strong>Description:</strong> {{ selectevent.description }}</p>
         </div>
         <div class="mt-4">

@@ -3,16 +3,25 @@ import { WishlistService } from '../services/wishlist.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
+import { EventService } from '../../services/events.service';
 
 
 interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  posterUrl: string;
+  category: {
+    name: string;
+  };
+  tickets: {
+    type: string;
+    price: string;
+    quantity: number;
+  }[];
   inWishlist: boolean;
-  id: number;
-  name: string;
-  pricing: string;
-  category: string;
-  tickets: number;
-  img: string;
 }
 
 @Component({
@@ -24,56 +33,37 @@ interface Event {
 })
 export class EventsComponent implements OnInit {
 
-  events: Event[] = [
-    {
-      id: 1, name: 'Event 1', pricing: '$10 - $20', category: 'Music', tickets: 10, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 2, name: 'Event 2', pricing: '$15 - $25', category: 'Sports', tickets: 20, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 3, name: 'Event 3', pricing: '$20 - $30', category: 'Theatre', tickets: 15, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 4, name: 'Event 4', pricing: '$25 - $35', category: 'Music', tickets: 5, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 5, name: 'Event 5', pricing: '$30 - $40', category: 'Sports', tickets: 10, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 6, name: 'Event 6', pricing: '$35 - $45', category: 'Theatre', tickets: 8, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 7, name: 'Event 7', pricing: '$40 - $50', category: 'Music', tickets: 12, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 8, name: 'Event 8', pricing: '$45 - $55', category: 'Sports', tickets: 18, img: 'clubMbuzi.png',
-      inWishlist: false
-    },
-    {
-      id: 9, name: 'Event 9', pricing: '$50 - $60', category: 'Theatre', tickets: 25, img: 'clubMbuzi.png',
-      inWishlist: false
-    }
-  ];
+  events: Event[] = [];
 
   eventsPerPage: number = 6;
   currentPage: number = 1;
   totalPages: number = 1;
   paginatedEvents: Event[] = [];
 
-  constructor(private wishlistService: WishlistService) {}
+  constructor(private wishlistService: WishlistService, private eventService: EventService) {}
 
   ngOnInit(): void {
     this.totalPages = Math.ceil(this.events.length / this.eventsPerPage);
     this.updatePaginatedEvents();
+    this.loadEvents();
   }
+
+  loadEvents() {
+    this.eventService.getAllEvents().subscribe(
+      (response) => {
+        this.events = response.events.map((event: any) => ({
+          ...event,
+          inWishlist: this.wishlistService.isInWishlist(event)
+        }));
+        this.totalPages = Math.ceil(this.events.length / this.eventsPerPage);
+        this.updatePaginatedEvents();
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
+  }
+
 
   updatePaginatedEvents(): void {
     const start = (this.currentPage - 1) * this.eventsPerPage;

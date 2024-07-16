@@ -29,14 +29,14 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
       <div *ngFor="let event of paginatedEvents" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg flex flex-col h-[28rem] sm:h-[28rem] lg:h-[28rem]">
         <div class="h-1/2 overflow-hidden">
-          <img [src]="event.img" alt="Event Poster" class="w-full h-full object-cover object-top">
+          <img [src]="event.posterUrl" alt="Event Poster" class="w-full h-full object-cover object-top">
         </div>
         <div class="p-3 sm:p-4 flex flex-col justify-between flex-grow">
           <div>
-            <h3 class="text-lg sm:text-xl font-bold mb-2">{{ event.name }}</h3>
-            <p class="text-xs sm:text-sm mb-1">Ticket Pricing: {{ event.pricing }}</p>
-            <p class="text-xs sm:text-sm mb-1">Category: {{ event.category }}</p>
-            <p class="text-xs sm:text-sm mb-2">Tickets Remaining: {{ event.tickets }}</p>
+            <h3 class="text-lg sm:text-xl font-bold mb-2">{{ event.title }}</h3>
+            <p class="text-xs sm:text-sm mb-1">Ticket Pricing: {{ event.tickets[0].price }} - {{ event.tickets[event.tickets.length - 1].price }}</p>
+            <p class="text-xs sm:text-sm mb-1">Category: {{ event.category.name }}</p>
+            <p class="text-xs sm:text-sm mb-2">Tickets Remaining:<br> VIP: {{ event.tickets[0].quantity }}<br> Regular: {{ event.tickets[event.tickets.length - 1].quantity }}</p>
           </div>
           <div class="flex flex-col space-y-2">
             <button class="text-white text-xs sm:text-sm flex items-center justify-center" (click)="event.inWishlist ? removeFromWishlist(event) : addToWishlist(event)">

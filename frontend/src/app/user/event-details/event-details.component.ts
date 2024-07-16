@@ -1,47 +1,63 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WishlistService } from '../services/wishlist.service';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
+import { EventService } from '../../services/events.service';
 
 
 interface Event {
-  id: number;
-  name: string;
-  pricing: string;
-  category: string;
-  tickets: number;
-  img: string;
-  description?: string;
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  posterUrl: string;
+  category: {
+    name: string;
+  };
+  tickets: {
+    type: string;
+    price: string;
+    quantity: number;
+  }[];
 }
 
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule, RouterModule,NavbarComponent],
+  imports: [CommonModule, RouterModule,NavbarComponent, DatePipe],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.css'
 })
 export class EventDetailsComponent {
-  event: Event[] = [
-    {id:1, name: 'Event 1', pricing: '$10 - $20', category: 'Music', tickets: 10, img: 'clubMbuzi.png', description: 'This is a music event.'},
-    {id:2, name: 'Event 2', pricing: '$15 - $25', category: 'Sports', tickets: 20, img: 'clubMbuzi.png', description: 'This is a music event.' },
-    {id:3, name: 'Event 3', pricing: '$20 - $30', category: 'Theatre', tickets: 15, img: 'clubMbuzi.png', description: 'This is a music event.' },
-    {id:4, name: 'Event 4', pricing: '$25 - $35', category: 'Music', tickets: 5, img: 'clubMbuzi.png', description: 'This is a music event.'},
-    {id:5, name: 'Event 5', pricing: '$30 - $40', category: 'Sports', tickets: 10, img: 'clubMbuzi.png', description: 'This is a music event.' },
-    {id:6, name: 'Event 6', pricing: '$35 - $45', category: 'Theatre', tickets: 8, img: 'clubMbuzi.png', description: 'This is a music event.' },
-    {id:7, name: 'Event 7', pricing: '$40 - $50', category: 'Music', tickets: 12, img: 'clubMbuzi.png', description: 'This is a music event.'},
-    {id:8, name: 'Event 8', pricing: '$45 - $55', category: 'Sports', tickets: 18, img: 'clubMbuzi.png', description: 'This is a music event.' },
-    {id:9, name: 'Event 9', pricing: '$50 - $60', category: 'Theatre', tickets: 25, img: 'clubMbuzi.png', description: 'This is a music event.' }
-  ];
+  event: Event[] = [];
   selectevent: Event | undefined;
 
-  constructor(private route: ActivatedRoute, private wishlistService: WishlistService
+  constructor(private route: ActivatedRoute, private wishlistService: WishlistService, private eventService: EventService
   ) {}
 
   ngOnInit(): void {
-    const eventId = Number(this.route.snapshot.paramMap.get('id'));
-    this.selectevent = this.event.find(event => event.id === eventId);
+    const eventId = this.route.snapshot.paramMap.get('id');
+    if (eventId) {
+      this.loadEventDetails(eventId);
+    } else {
+      console.log('No event ID found in route');
+      
+    }
+  }
+
+  loadEventDetails(eventId: string): void {
+    this.eventService.getEvent(eventId).subscribe(
+      (response) => {
+        this.selectevent = response;
+      },
+      (error) => {
+        console.error('Error fetching event details:', error);
+        console.log('Error fetching event details:', error);
+        
+      }
+    );
   }
   isInWishlist(): boolean {
     return this.wishlistService.isInWishlist(this.selectevent);

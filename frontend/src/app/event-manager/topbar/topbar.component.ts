@@ -58,7 +58,6 @@ export class TopbarComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('authToken');
-    window.location.reload();
     this.router.navigate(['/home']);
   }
 }

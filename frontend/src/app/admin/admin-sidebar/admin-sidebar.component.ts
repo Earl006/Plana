@@ -14,7 +14,6 @@ export class AdminSidebarComponent {
 
   logout() {
     localStorage.removeItem('authToken');
-    window.location.reload();
     this.router.navigate(['/home']);
   }
 

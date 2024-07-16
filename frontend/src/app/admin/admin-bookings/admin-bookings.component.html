@@ -1,0 +1,59 @@
+<app-topbar></app-topbar>
+<app-admin-sidebar></app-admin-sidebar>
+<div class="container mx-auto px-4 py-20 h-screen">
+  <div class="flex mx-32 justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-white">Bookings</h1>
+  </div>
+
+  <div class="bg-gray-800 mx-32 p-4 rounded-lg mb-6">
+    <div class="flex space-x-4">
+      <select [(ngModel)]="selectedCategory" (change)="filterBookings()" class="bg-gray-700 text-white rounded px-2 py-1">
+        <option value="">All Categories</option>
+        <option class="text-white" *ngFor="let category of categories" [value]="category?.id">{{category?.name}}</option>
+      </select>
+      <select [(ngModel)]="selectedManager" (change)="filterBookings()" class="bg-gray-700 text-white rounded px-2 py-1">
+        <option value="">All Managers</option>
+        <ng-container *ngIf="managers && managers.length > 0; else noManagers">
+          <option *ngFor="let manager of managers" [value]="manager?.id">{{manager?.firstName}} {{manager?.lastName}}</option>
+        </ng-container>
+        <ng-template #noManagers>
+          <option value="" disabled>No managers available</option>
+        </ng-template>
+      </select>
+      <select [(ngModel)]="selectedEvent" (change)="filterBookings()" class="bg-gray-700 text-white rounded px-2 py-1">
+        <option value="">All Events</option>
+        <option *ngFor="let event of events" [value]="event.id">{{event.title}}</option>
+      </select>
+      <button (click)="resetFilters()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-gray-800 mx-32 shadow-md rounded-lg overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-gray-700">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Event</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">User</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Ticket Type</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">No. of Tickets</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Total Price</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Created At</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-600">
+        <tr *ngFor="let booking of filteredBookings" class="hover:bg-gray-700">
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.event.title}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.user.firstName}} {{booking.user.lastName}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.ticket.type}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.quantity}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.totalPrice}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.status}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-white">{{booking.createdAt | date:'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

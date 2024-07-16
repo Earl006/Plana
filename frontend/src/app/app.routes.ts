@@ -25,6 +25,9 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { AdminEventsComponent } from './admin/admin-events/admin-events.component';
+import { AdminCategoriesComponent } from './admin/admin-categories/admin-categories.component';
+import { AdminManagerRequestsComponent } from './admin/admin-manager-requests/admin-manager-requests.component';
+import { AdminBookingsComponent } from './admin/admin-bookings/admin-bookings.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -48,7 +51,10 @@ export const routes: Routes = [
   { path: 'my-calendar', component: MyCalendarComponent },
   { path: 'admin-dashboard', component: AdminDashboardComponent},
   { path: 'admin-users', component: AdminUsersComponent},
-  { path: 'admin-events', component:AdminEventsComponent}
+  { path: 'admin-events', component:AdminEventsComponent},
+  { path: 'admin-categories', component:AdminCategoriesComponent},
+  { path: 'admin-manager-requests', component:AdminManagerRequestsComponent},
+  { path: 'admin-bookings', component:AdminBookingsComponent}
   // other routes
 ];
 

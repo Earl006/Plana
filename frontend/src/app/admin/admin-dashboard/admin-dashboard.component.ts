@@ -3,6 +3,7 @@ import { SidebarComponent } from '../../event-manager/global/sidebar/sidebar.com
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
 import { TopbarComponent } from '../../event-manager/topbar/topbar.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface Notification {
   message: string;
@@ -21,7 +22,7 @@ interface Event {
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   standalone:true,
-  imports:[AdminSidebarComponent,TopbarComponent,CommonModule],
+  imports:[AdminSidebarComponent,TopbarComponent,CommonModule, RouterModule],
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
