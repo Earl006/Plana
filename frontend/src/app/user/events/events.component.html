@@ -20,11 +20,10 @@
       </div>
       <div class="relative">
         <select class="py-2 px-8 bg-gray-700 w-fit text-white rounded-full focus:outline-none" 
-                [(ngModel)]="selectedCategory" 
-                (change)="onCategoryChange($event)">
-          <option value="">All Categories</option>
-          <option *ngFor="let category of categories" [value]="category">{{ category.name }}</option>
-        </select>
+        [(ngModel)]="selectedCategoryName" 
+        (change)="onCategoryChange($event)">
+  <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+</select>
       </div>
     </div>
 

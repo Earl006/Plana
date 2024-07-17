@@ -1,70 +1,124 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
+import { EventService } from '../../services/events.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';
 
 interface Event {
-  id: number;
-  name: string;
-  pricing: string;
-  category: string;
-  tickets: number;
+  id: string;
+  title: string;
   description: string;
+  date: string;
+  location: string;
+  posterUrl: string;
+  category: {
+    name: string;
+  };
+  tickets: Ticket[];
+  inWishlist: boolean;
+}
+
+interface Ticket {
+  id: string;
+  type: string;
+  price: string;
+  quantity: number;
+}
+
+interface BookingRequest {
+  userId: string;
+  eventId: string;
+  tickets: TicketRequest[];
+  attendeeDetails: AttendeeDetail[];
+}
+
+interface TicketRequest {
+  ticketId: string;
+  quantity: number;
+}
+
+interface AttendeeDetail {
+  firstName: string;
+  lastName: string;
+  ticketType: string;
 }
 
 @Component({
   selector: 'app-book-now',
   templateUrl: './book-now.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,NavbarComponent],
+  imports: [ReactiveFormsModule, CommonModule, NavbarComponent],
   styleUrls: ['./book-now.component.css']
 })
 export class BookNowComponent implements OnInit {
   bookingForm: FormGroup;
-  event: Event[] = [
-    {id:1, name: 'Event 1', pricing: '$10 - $20', category: 'Music', tickets: 10, description: 'This is a music event.'},
-    {id:2, name: 'Event 2', pricing: '$15 - $25', category: 'Sports', tickets: 20, description: 'This is a music event.' },
-    {id:3, name: 'Event 3', pricing: '$20 - $30', category: 'Theatre', tickets: 15, description: 'This is a music event.' },
-    {id:4, name: 'Event 4', pricing: '$25 - $35', category: 'Music', tickets: 5, description: 'This is a music event.'},
-    {id:5, name: 'Event 5', pricing: '$30 - $40', category: 'Sports', tickets: 10, description: 'This is a music event.' },
-    {id:6, name: 'Event 6', pricing: '$35 - $45', category: 'Theatre', tickets: 8, description: 'This is a music event.' },
-    {id:7, name: 'Event 7', pricing: '$40 - $50', category: 'Music', tickets: 12, description: 'This is a music event.'},
-    {id:8, name: 'Event 8', pricing: '$45 - $55', category: 'Sports', tickets: 18, description: 'This is a music event.' },
-    {id:9, name: 'Event 9', pricing: '$50 - $60', category: 'Theatre', tickets: 25, description: 'This is a music event.' }
-  ];
-  ticketTypes = ['General', 'VIP', 'Premium'];
+  event: Event | undefined;
+  ticketTypes: Ticket[] = [];
+  userId:string ='';
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder,
+    private eventService: EventService,
+    private bookingService: BookingService,
+    private authService: AuthService
+  ) {
     this.bookingForm = this.fb.group({
-      tickets: this.fb.array([this.createTicketFormGroup()]),
+      tickets: this.fb.array([]),
       phoneNumber: ['', Validators.required]
     });
   }
-  selectevent: Event |undefined
-  
+
   ngOnInit(): void {
-    const eventId = Number(this.route.snapshot.paramMap.get('id'));
-    this.selectevent = this.event.find(event => event.id === eventId);
+    const eventId = this.route.snapshot.paramMap.get('id');
+    if (eventId) {
+      this.getEvent(eventId);
+    this.userId=this.authService.getUserId()!;
+    }
   }
 
   get tickets() {
     return this.bookingForm.get('tickets') as FormArray;
   }
 
+  getEvent(eventId: string): void {
+    this.eventService.getEvent(eventId).subscribe(
+      (event: Event) => {
+        this.event = event;
+        this.ticketTypes = event.tickets;
+        this.initForm();
+      },
+      error => console.error('Error fetching event:', error)
+    );
+  }
+
+  initForm(): void {
+    while (this.tickets.length) {
+      this.tickets.removeAt(0);
+    }
+    this.addTicket();
+  }
+
   createTicketFormGroup(): FormGroup {
     return this.fb.group({
-      ticketType: [[this.ticketTypes[0]], Validators.required],
+      ticketType: [this.ticketTypes[0]?.type, Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      addNew: [true]  // For managing add button visibility
+      addNew: [true]
     });
   }
 
   addTicket(): void {
     const newTicket = this.createTicketFormGroup();
-    const lastTicket = this.tickets.at(this.tickets.length - 1);
-    lastTicket.get('addNew')?.setValue(false);  // Disable add button in the last ticket
+    if (this.tickets.length > 0) {
+      const lastTicket = this.tickets.at(this.tickets.length - 1);
+      lastTicket.get('addNew')?.setValue(false);
+    }
     this.tickets.push(newTicket);
   }
 
@@ -72,17 +126,68 @@ export class BookNowComponent implements OnInit {
     this.tickets.removeAt(index);
     if (this.tickets.length > 0) {
       const lastTicket = this.tickets.at(this.tickets.length - 1);
-      lastTicket.get('addNew')?.setValue(true);  // Enable add button in the new last ticket
+      lastTicket.get('addNew')?.setValue(true);
     }
   }
 
   calculateTotalPrice(): number {
-    const basePrice = 10; // Use your pricing logic here
-    return this.tickets.length * basePrice;
+    return this.tickets.controls.reduce((total, ticketControl) => {
+      const ticketType = ticketControl.get('ticketType')?.value;
+      const price = this.ticketTypes.find(t => t.type === ticketType)?.price;
+      return total + (Number(price) || 0);
+    }, 0);
+  }
+
+  calculateTicketsRemaining(): number {
+    return this.event?.tickets?.reduce((sum, ticket) => sum + ticket.quantity, 0) || 0;
+  }
+
+  createBookingRequest(): BookingRequest {
+    const ticketCounts = new Map<string, number>();
+    const attendeeDetails: AttendeeDetail[] = [];
+
+    this.tickets.controls.forEach(control => {
+      const ticketType = control.get('ticketType')?.value;
+      const firstName = control.get('firstName')?.value;
+      const lastName = control.get('lastName')?.value;
+
+      attendeeDetails.push({ firstName, lastName, ticketType });
+
+      const ticket = this.ticketTypes.find(t => t.type === ticketType);
+      if (ticket) {
+        ticketCounts.set(ticket.id, (ticketCounts.get(ticket.id) || 0) + 1);
+      }
+    });
+
+    const tickets: TicketRequest[] = Array.from(ticketCounts.entries()).map(([ticketId, quantity]) => ({
+      ticketId,
+      quantity
+    }));
+
+    return {
+      userId: this.userId,
+      eventId: this.event?.id || '',
+      tickets,
+      attendeeDetails
+    };
   }
 
   onSubmit(): void {
-    console.log(this.bookingForm.value);
-    // Handle form submission
+    if (this.bookingForm.valid) {
+      this.bookingService.createBooking(this.createBookingRequest()).subscribe(
+        (response)=>{
+          console.log('Booking made successfully');
+          this.router.navigate(['/bookings/success']);         
+        },
+        (error)=>{
+          console.log('Error creating booking', error);
+          
+        }
+      )
+     
+      
+    } else {
+      this.bookingForm.markAllAsTouched();
+    }
   }
 }

@@ -28,6 +28,7 @@ import { AdminEventsComponent } from './admin/admin-events/admin-events.componen
 import { AdminCategoriesComponent } from './admin/admin-categories/admin-categories.component';
 import { AdminManagerRequestsComponent } from './admin/admin-manager-requests/admin-manager-requests.component';
 import { AdminBookingsComponent } from './admin/admin-bookings/admin-bookings.component';
+import { BookingSuccessComponent } from './user/booking-success/booking-success.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,6 +41,7 @@ export const routes: Routes = [
   { path: 'login', component: AuthComponent, data: { mode: 'login' } },
   { path: 'register', component: AuthComponent, data: { mode: 'register' } },
   { path: 'my-bookings', component: MyBookingsComponent },
+  { path: 'booking/success', component:BookingSuccessComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'profile', component: EditProfileComponent },
   { path: 'change-password', component: ChangePasswordComponent },

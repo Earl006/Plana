@@ -28,8 +28,8 @@ interface Event {
 interface Category {
   id: string;
   name: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 @Component({
@@ -50,7 +50,7 @@ export class EventsComponent implements OnInit {
   totalPages: number = 1;
 
   searchKeyword: string = '';
-  selectedCategory: string = 'All Categories';
+  selectedCategoryName: string = 'All Categories';
 
   private searchTimeout: any;
 
@@ -84,19 +84,21 @@ export class EventsComponent implements OnInit {
     this.categoryService.getAllCategories().subscribe(
       (response: any) => {
         if (response && Array.isArray(response.categories)) {
-          this.categories = response.categories;
+          this.categories = [
+            { id: 'all', name: 'All Categories' } as Category,
+            ...response.categories
+          ];
         } else {
           console.error('Unexpected response format for categories:', response);
-          this.categories = [];
+          this.categories = [{ id: 'all', name: 'All Categories' } as Category];
         }
       },
       (error) => {
         console.error('Error fetching categories:', error);
-        this.categories = [];
+        this.categories = [{ id: 'all', name: 'All Categories' } as Category];
       }
     );
   }
-
   filterEvents() {
     let filteredEvents = this.events;
 
@@ -106,9 +108,9 @@ export class EventsComponent implements OnInit {
       );
     }
 
-    if (this.selectedCategory !== 'All Categories') {
+    if (this.selectedCategoryName !== 'All Categories') {
       filteredEvents = filteredEvents.filter(event =>
-        event.category.name === this.selectedCategory
+        event.category.name === this.selectedCategoryName
       );
     }
 
@@ -116,7 +118,6 @@ export class EventsComponent implements OnInit {
     this.currentPage = 1; 
     this.updatePaginatedEvents(filteredEvents);
   }
-
   updatePaginatedEvents(filteredEvents: Event[]): void {
     const start = (this.currentPage - 1) * this.eventsPerPage;
     const end = start + this.eventsPerPage;
@@ -164,7 +165,7 @@ export class EventsComponent implements OnInit {
   onCategoryChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     if (target) {
-      this.selectedCategory = target.value;
+      this.selectedCategoryName = target.value;
       this.filterEvents();
     }
   }
