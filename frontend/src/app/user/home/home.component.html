@@ -79,24 +79,16 @@
       <h1 class="text-4xl font-bold mb-8">Events</h1>
       
       <!-- Search and Filter -->
-      <div class="flex justify-center items-center mb-8">
-        <div class="relative mr-4">
-          <input type="text" placeholder="Search events..." class="py-2 px-4 bg-gray-700 text-white rounded-full focus:outline-none">
-          <span class="absolute top-0 right-0 mt-2 mr-4 text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l-6-6m0 0l6-6m-6 6h16" />
-            </svg>
-          </span>
-        </div>
-        <div class="relative">
-          <select class="py-2 px-8 bg-gray-700 w-fit text-white rounded-full focus:outline-none">
-            <option>All Categories</option>
-            <option>Music</option>
-            <option>Sports</option>
-            <option>Theatre</option>
-            <!-- Add more categories as needed -->
+      <div class="mb-4 flex flex-col sm:flex-row justify-between items-center">
+        <div class="mb-2 sm:mb-0">
+          <label for="category" class="mr-2">Category:</label>
+          <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)" class="bg-gray-700 text-white rounded px-2 py-1">
+
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
           </select>
-          
+        </div>
+        <div>
+          <input type="text" [(ngModel)]="searchTerm" (input)="onSearch($event)" placeholder="Search events..." class="bg-gray-700 text-white rounded px-2 py-1">
         </div>
       </div>
   

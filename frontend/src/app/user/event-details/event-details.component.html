@@ -14,7 +14,7 @@
           <p class="text-lg mb-4"><strong>Category:</strong> {{ selectevent.category.name }}</p>
           <!-- <p class="text-lg mb-4"><strong>Pricing:</strong> {{ selectevent.pricing }}</p> -->
           <p class="text-lg mb-4"><strong>Ticket Pricing:</strong> <br>{{ selectevent.tickets[0].type }}:{{ selectevent.tickets[0].price }} <br> {{selectevent.tickets[selectevent.tickets.length -1].type}}: {{selectevent.tickets[selectevent.tickets.length -1].price}}</p>
-          <p class="text-lg mb-4"><strong>Ticket Remaining:</strong> <br>{{ selectevent.tickets[0].type }}:{{ selectevent.tickets[0].quantity }} <br> {{selectevent.tickets[selectevent.tickets.length -1].type}}: {{selectevent.tickets[selectevent.tickets.length -1].quantity}}</p>
+          <p class="text-lg mb-4"><strong>Tickets Remaining:</strong> <br>{{ selectevent.tickets[0].type }}:{{ selectevent.tickets[0].quantity }} <br> {{selectevent.tickets[selectevent.tickets.length -1].type}}: {{selectevent.tickets[selectevent.tickets.length -1].quantity}}</p>
           <p class="text-lg mb-4"><strong>Date:</strong> {{ selectevent.date | date: 'mediumDate'}}</p>
           <p class="text-lg mb-4"><strong>Description:</strong> {{ selectevent.description }}</p>
         </div>

@@ -5,12 +5,20 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
 
 interface Event {
-  id: number; // Add the 'id' property
-  name: string;
-  pricing: string;
-  category: string;
-  tickets: number;
-  img: string;
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  posterUrl: string;
+  category: {
+    name: string;
+  };
+  tickets: {
+    type: string;
+    price: string;
+    quantity: number;
+  }[];
 }
 
 @Component({
@@ -26,11 +34,15 @@ export class WishlistComponent implements OnInit {
   constructor(private wishlistService: WishlistService) {}
 
   ngOnInit(): void {
+    this.loadWishlist();
+  }
+
+  loadWishlist(): void {
     this.wishlist = this.wishlistService.getWishlist();
   }
 
   isInWishlist(event: Event): boolean {
-    return this.wishlist.some(e => e.id === event.id);
+    return this.wishlistService.isInWishlist(event);
   }
 
   toggleWishlist(event: Event): void {
@@ -43,11 +55,11 @@ export class WishlistComponent implements OnInit {
 
   addToWishlist(event: Event): void {
     this.wishlistService.addToWishlist(event);
-    this.wishlist = this.wishlistService.getWishlist(); // Refresh wishlist after modification
+    this.loadWishlist(); // Refresh wishlist after modification
   }
 
   removeFromWishlist(event: Event): void {
     this.wishlistService.removeFromWishlist(event);
-    this.wishlist = this.wishlistService.getWishlist(); // Refresh wishlist after modification
+    this.loadWishlist(); // Refresh wishlist after modification
   }
 }

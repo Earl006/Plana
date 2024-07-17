@@ -1,27 +1,25 @@
 <app-navbar></app-navbar>
 
 <section class="py-16 text-center text-white m-20">
+  <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">Wishlist</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
     <div *ngFor="let event of wishlist" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg flex flex-col h-[28rem] sm:h-[28rem] lg:h-[28rem]">
       <div class="h-1/2 overflow-hidden">
-        <img [src]="event.img" alt="Event Poster" class="w-full h-full object-cover object-top">
+        <img [src]="event.posterUrl" alt="Event Poster" class="w-full h-full object-cover object-top">
       </div>
       <div class="p-3 sm:p-4 flex flex-col justify-between flex-grow">
         <div>
-          <h3 class="text-lg sm:text-xl font-bold mb-2">{{ event.name }}</h3>
-          <p class="text-xs sm:text-sm mb-1">Ticket Pricing: {{ event.pricing }}</p>
-          <p class="text-xs sm:text-sm mb-1">Category: {{ event.category }}</p>
-          <p class="text-xs sm:text-sm mb-2">Tickets Remaining: {{ event.tickets }}</p>
+          <h3 class="text-lg sm:text-xl font-bold mb-2">{{ event.title }}</h3>
+          <p class="text-xs sm:text-sm mb-1">Ticket Pricing: {{ event.tickets[0]?.price }} - {{ event.tickets[event.tickets.length - 1]?.price }}</p>
+          <p class="text-xs sm:text-sm mb-1">Category: {{ event.category.name }}</p>
+          <p class="text-xs sm:text-sm mb-2">Date: {{ event.date | date:'mediumDate' }}</p>
         </div>
         <div class="flex flex-col space-y-2">
-          <button class="text-white text-xs sm:text-sm flex items-center justify-center" (click)="toggleWishlist(event)">
-            <svg *ngIf="isInWishlist(event)" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 3.72l-.72-.71a5.25 5.25 0 0 0-7.43 7.42L10 17.11l8.15-6.7a5.25 5.25 0 0 0-7.43-7.42l-.72.71z" clip-rule="evenodd" />
+          <button class="text-white text-xs sm:text-sm flex items-center justify-center" (click)="removeFromWishlist(event)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
-            <svg *ngIf="!isInWishlist(event)" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-white mr-1" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-            {{ isInWishlist(event) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+            Remove from Wishlist
           </button>
           <div class="flex justify-between">
             <button [routerLink]="['/eventdetails', event.id]" class="bg-black text-white text-xs sm:text-sm font-semibold py-1 sm:py-2 px-2 sm:px-3 transition duration-300 hover:bg-gray-700 rounded">

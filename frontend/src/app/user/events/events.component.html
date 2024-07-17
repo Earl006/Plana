@@ -7,7 +7,11 @@
     <!-- Search and Filter -->
     <div class="flex justify-center items-center mb-8">
       <div class="relative mr-4">
-        <input type="text" placeholder="Search events..." class="py-2 px-4 bg-gray-700 text-white rounded-full focus:outline-none">
+        <input type="text" 
+               placeholder="Search events..." 
+               class="py-2 px-4 bg-gray-700 text-white rounded-full focus:outline-none" 
+               [(ngModel)]="searchKeyword" 
+               (input)="onSearchChange($event)">
         <span class="absolute top-0 right-0 mt-2 mr-4 text-gray-500">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l-6-6m0 0l6-6m-6 6h16" />
@@ -15,12 +19,11 @@
         </span>
       </div>
       <div class="relative">
-        <select class="py-2 px-8 bg-gray-700 w-fit text-white rounded-full focus:outline-none">
-          <option>All Categories</option>
-          <option>Music</option>
-          <option>Sports</option>
-          <option>Theatre</option>
-          <!-- Add more categories as needed -->
+        <select class="py-2 px-8 bg-gray-700 w-fit text-white rounded-full focus:outline-none" 
+                [(ngModel)]="selectedCategory" 
+                (change)="onCategoryChange($event)">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category.name }}</option>
         </select>
       </div>
     </div>
@@ -46,7 +49,7 @@
               <svg *ngIf="!event.inWishlist" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-white mr-1" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              Add to Wishlist
+              {{ event.inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}
             </button>
             <div class="flex justify-between">
               <button [routerLink]="['/eventdetails', event.id]" class="bg-black text-white text-xs sm:text-sm font-semibold py-1 sm:py-2 px-2 sm:px-3 transition duration-300 hover:bg-gray-700 rounded">
@@ -60,8 +63,6 @@
         </div>
       </div>
     </div>
-
-    
 
     <!-- Pagination -->
     <div class="mt-8">

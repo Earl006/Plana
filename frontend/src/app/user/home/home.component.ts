@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service';
-
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
 import { EventService } from '../../services/events.service';
+import { FormsModule } from '@angular/forms';
 
 interface Event {
   id: string;
@@ -27,12 +27,11 @@ interface Event {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, FormsModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'] // Note the correct 'styleUrls'
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
   events: Event[] = [];
 
   currentSlide = 0;
@@ -76,14 +75,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   totalPages: number = 1;
   paginatedEvents: Event[] = [];
   isLoggedIn = false;
+  categories: string[] = [];
+  selectedCategory: string = 'All';
+  searchTerm: string = '';
+  filteredEvents: Event[] = [];
 
-
-  constructor(private router: Router, private wishlistService: WishlistService, private cd: ChangeDetectorRef, private eventService: EventService) {}
+  constructor(
+    private router: Router,
+    private wishlistService: WishlistService,
+    private cd: ChangeDetectorRef,
+    private eventService: EventService
+  ) {}
 
   ngOnInit() {
     this.startRandomSlideShow();
-    this.totalPages = Math.ceil(this.events.length / this.eventsPerPage);
-    this.updatePaginatedEvents();
     this.checkLoginStatus();
     this.loadEvents();
   }
@@ -95,8 +100,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           ...event,
           inWishlist: this.wishlistService.isInWishlist(event)
         }));
-        this.totalPages = Math.ceil(this.events.length / this.eventsPerPage);
-        this.updatePaginatedEvents();
+        this.extractCategories();
+        this.filterAndSearchEvents(); // This replaces updatePaginatedEvents()
       },
       (error) => {
         console.error('Error fetching events:', error);
@@ -104,10 +109,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
+  extractCategories() {
+    const uniqueCategories = [...new Set(this.events.map(event => event.category.name))];
+    this.categories = ['All', ...uniqueCategories];
+    console.log('Extracted categories:', this.categories); // For debugging
+  }
+
+  filterAndSearchEvents() {
+    this.filteredEvents = this.events;
+  
+    if (this.selectedCategory !== 'All') {
+      this.filteredEvents = this.filteredEvents.filter(event => event.category.name === this.selectedCategory);
+    }
+  
+    if (this.searchTerm) {
+      const searchLower = this.searchTerm.toLowerCase();
+      this.filteredEvents = this.filteredEvents.filter(event => 
+        event.title.toLowerCase().includes(searchLower) ||
+        event.description.toLowerCase().includes(searchLower)
+      );
+    }
+  
+    this.totalPages = Math.ceil(this.filteredEvents.length / this.eventsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedEvents();
+  }
+
   updatePaginatedEvents(): void {
     const start = (this.currentPage - 1) * this.eventsPerPage;
     const end = start + this.eventsPerPage;
-    this.paginatedEvents = this.events.slice(start, end).map(event => ({
+    this.paginatedEvents = this.filteredEvents.slice(start, end).map(event => ({
       ...event,
       inWishlist: this.wishlistService.isInWishlist(event)
     }));
@@ -118,12 +149,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentPage--;
       this.updatePaginatedEvents();
     }
-  }
-  checkLoginStatus() {
-    const token = localStorage.getItem('authToken');
-    this.isLoggedIn = !!token;
-    console.log(this.isLoggedIn , token);
-    this.cd.detectChanges();
   }
 
   nextPage(): void {
@@ -142,7 +167,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   startRandomSlideShow() {
     this.intervalId = setInterval(() => {
       this.currentSlide = Math.floor(Math.random() * this.slides.length);
-    }, 10000); // Change slide every 5 seconds
+    }, 10000); // Change slide every 10 seconds
   }
 
   nextSlide() {
@@ -154,23 +179,45 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
     this.resetInterval();
   }
+  onCategoryChange(event: any): void {
+    if (event && event.target && typeof event.target.value === 'string') {
+      this.selectedCategory = event.target.value;
+      this.filterAndSearchEvents();
+    }
+  }
 
+  onSearch(event: any): void {
+    if (event && event.target && typeof event.target.value === 'string') {
+      this.searchTerm = event.target.value;
+      this.filterAndSearchEvents();
+    }
+  }
   private resetInterval() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
     this.startRandomSlideShow();
   }
+
   navigateToLogin() {
     this.router.navigate(['/login']);
   }
+
   addToWishlist(event: Event): void {
     this.wishlistService.addToWishlist(event);
     event.inWishlist = true;
+    this.updatePaginatedEvents(); // Ensure the UI reflects the change
   }
 
   removeFromWishlist(event: Event): void {
     this.wishlistService.removeFromWishlist(event);
     event.inWishlist = false;
+    this.updatePaginatedEvents(); // Ensure the UI reflects the change
+  }
+
+  checkLoginStatus() {
+    const token = localStorage.getItem('authToken');
+    this.isLoggedIn = !!token;
+    this.cd.detectChanges();
   }
 }
