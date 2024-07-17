@@ -1,5 +1,6 @@
-import { PrismaClient, Prisma, Booking } from '@prisma/client';
+import { PrismaClient, Prisma, Booking, User } from '@prisma/client';
 import { TicketService } from './ticket.service';
+import sendMail from '../bg-services/email.service';
 
 const prisma = new PrismaClient();
 const ticketService = new TicketService();
