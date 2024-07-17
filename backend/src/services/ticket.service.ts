@@ -7,16 +7,21 @@ import path from 'path';
 const prisma = new PrismaClient();
 
 export class TicketService {
-  async generateTicket(bookingId: string, attendeeDetails: { firstName: string; lastName: string }): Promise<string> {
+  async generateTicket(bookingId: string, attendeeDetails: { firstName: string; lastName: string; ticketType: string }): Promise<string> {
     // Fetch the booking with related data
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
       include: {
         user: true,
         event: true,
-        ticket: true,
+        TicketBookings: {
+          include: {
+            ticket: true,
+          },
+        },
       },
     });
+    
 
     if (!booking) {
       throw new Error('Booking not found');
@@ -47,8 +52,8 @@ export class TicketService {
   }
 
   private async createPDF(
-    booking: Booking & { user: { firstName: string; lastName: string }; event: any; ticket: Ticket },
-    attendeeDetails: { firstName: string; lastName: string },
+    booking: Booking & { user: { firstName: string; lastName: string }; event: any; TicketBookings: { ticket: Ticket }[] },
+    attendeeDetails: { firstName: string; lastName: string; ticketType: string },
     qrCodeDataUrl: string
   ): Promise<Buffer> {
     return new Promise((resolve, reject) => {
@@ -72,18 +77,20 @@ export class TicketService {
       doc.fill('#ffffff').fontSize(30).font('Helvetica-Bold').text('EVENT TICKET', 50, 50);
       doc.fontSize(18).text(booking.event.title, 50, 100);
   
-      // Add event details
-      doc.moveDown(); // Move cursor down for spacing
-      doc.fill('#333333').fontSize(14).font('Helvetica').text('Event Details', 50, 180);
-      doc.fontSize(12).text(`Date: ${new Date(booking.event.date).toLocaleDateString()}`, 50, 210);
-      doc.text(`Location: ${booking.event.location}`, { width: 400, align: 'left' });
+     // Add attendee details
+     doc.moveDown(); // Move cursor down for spacing
+     doc.fill('#333333').fontSize(14).font('Helvetica-Bold').text('Attendee Information', 50, 300);
+     doc.fontSize(12).text(`Name: ${attendeeDetails.firstName} ${attendeeDetails.lastName}`, 50, 330);
+     doc.text(`Ticket Type: ${attendeeDetails.ticketType}`, 50, 350);
   
-      // Add attendee details
-      doc.moveDown(); // Move cursor down for spacing
-      doc.fill('#333333').fontSize(14).font('Helvetica-Bold').text('Attendee Information', 50, 300);
-      doc.fontSize(12).text(`Name: ${attendeeDetails.firstName} ${attendeeDetails.lastName}`, 50, 330);
-      doc.text(`Ticket Type: ${booking.ticket.type}`, 50, 350);
-    //   doc.text(`Buddy Tickets: ${booking.quantity}`, 50, 370);
+      // // Add attendee details
+      // doc.moveDown(); // Move cursor down for spacing
+      // doc.fill('#333333').fontSize(14).font('Helvetica-Bold').text('Attendee Information', 50, 300);
+      // doc.fontSize(12).text(`Name: ${attendeeDetails.firstName} ${attendeeDetails.lastName}`, 50, 330);
+      // booking.TicketBookings.forEach((ticketBooking, index) => {
+      //   doc.fontSize(12).text(`Ticket Type ${ticketBooking.ticket.type}`, 50, 400 + index * 20);
+      // });    //   doc.text(`Buddy Tickets: ${booking.quantity}`, 50, 370);
+
   
       // Add QR code
       doc.image(qrCodeDataUrl, 400, 200, { width: 150 }); // Position QR code to the right

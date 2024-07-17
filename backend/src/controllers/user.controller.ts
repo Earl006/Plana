@@ -58,6 +58,24 @@ export class UserController {
       return res.status(500).json({ error: error.message });
     }
   }
+  static async getManagers(req: Request, res: Response): Promise<Response> {
+    try {
+      const { skip, take } = req.query;
+      const users = await UserService.getManagers(Number(skip) || 0, Number(take) || 10);
+      return res.status(200).json(users);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+  static async getManagerRequests(req: Request, res: Response): Promise<Response> {
+    try {
+      const { skip, take } = req.query;
+      const users = await UserService.getManagerRequests(Number(skip) || 0, Number(take) || 10);
+      return res.status(200).json(users);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 
   static async requestManagerRole(req: Request, res: Response): Promise<Response> {
     try {

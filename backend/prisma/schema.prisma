@@ -56,22 +56,29 @@ model Ticket {
   type     String
   price    Decimal
   quantity Int
-  bookings Booking[]
+  bookings TicketBooking[]
   event    Event     @relation(fields: [eventId], references: [id], onUpdate: NoAction)
 }
-
 model Booking {
-  id         String   @id @default(uuid())
-  userId     String
-  eventId    String
-  ticketId   String
-  quantity   Int
-  totalPrice Decimal
-  status     String   @default("CONFIRMED")
-  verificationCode String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  event      Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction)
-  ticket     Ticket   @relation(fields: [ticketId], references: [id], onUpdate: NoAction)
-  user       User     @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  id                String          @id @default(uuid())
+  userId            String
+  eventId           String
+  quantity          Int
+  totalPrice        Decimal
+  status            String          @default("CONFIRMED")
+  verificationCode  String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  event             Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction)
+  user              User            @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  TicketBookings    TicketBooking[]
+}
+
+model TicketBooking {
+  id        String  @id @default(uuid())
+  bookingId String
+  ticketId  String
+  quantity  Int
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  ticket    Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }

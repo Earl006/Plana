@@ -5,8 +5,8 @@ const bookingService = new BookingService();
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { userId, eventId, ticketId, quantity, attendeeDetails } = req.body;
-    const booking = await bookingService.createBooking(userId, eventId, ticketId, quantity, attendeeDetails);
+    const { userId, eventId, tickets, attendeeDetails } = req.body;
+    const booking = await bookingService.createBooking(userId, eventId, tickets, attendeeDetails);
     res.status(201).json({ booking, verificationCode: booking.verificationCode });
   } catch (error) {
     console.error('Error creating booking:', error);
@@ -28,6 +28,19 @@ export const getBooking = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ error: 'Failed to fetch booking' });
   }
 };
+export  const getAllBookings = async (req: Request, res: Response): Promise<void> => {
+  try{
+    const bookings = await bookingService.getAllBookings();
+    if(bookings){
+      res.status(200).json({ bookings });
+    }
+    else{
+      res.status(404).json({ error: 'No bookings found' });
+    }
+  }catch(error){
+    res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+  }
 
 export const verifyBooking = async (req: Request, res: Response): Promise<void> => {
   try {

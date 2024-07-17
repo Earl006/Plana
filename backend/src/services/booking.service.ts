@@ -5,71 +5,87 @@ const prisma = new PrismaClient();
 const ticketService = new TicketService();
 
 export class BookingService {
-    async createBooking(
-        userId: string,
-        eventId: string,
-        ticketId: string,
-        quantity: number,
-        attendeeDetails: { firstName: string; lastName: string }[]
-      ): Promise<Booking> {
-        // Calculate total price
-        const ticket = await prisma.ticket.findUnique({
-          where: { id: ticketId }
-        });
-    
-        if (!ticket) {
-          throw new Error('Ticket not found');
-        }
-    
-        // Check if enough tickets are available
-        if (ticket.quantity < quantity) {
-          throw new Error('Not enough tickets available');
-        }
-    
-        const totalPrice = ticket.price.mul(quantity);
-        const verificationCode = this.generateVerificationCode();
-    
-        // Create booking
-        const booking = await prisma.booking.create({
-          data: {
-            userId,
-            eventId,
-            ticketId,
-            quantity,
-            totalPrice,
-            verificationCode,
-          },
-          include: {
-            event: true,
-            ticket: true,
-            user: true
-          }
-        });
-    
-        // Decrement ticket quantity
-        await prisma.ticket.update({
-          where: { id: ticketId },
-          data: {
-            quantity: {
-              decrement: quantity,
-            },
-          },
-        });
-    
-        // Generate tickets for each attendee
-        for (let i = 0, len = attendeeDetails.length; i < len; i++) {
-          await ticketService.generateTicket(booking.id, attendeeDetails[i]);
-        }
-    
-        return booking;
+  async createBooking(
+    userId: string,
+    eventId: string,
+    tickets: { ticketId: string, quantity: number }[],
+    attendeeDetails: { firstName: string; lastName: string; ticketType: string }[]
+  ): Promise<Booking> {
+    let totalPrice = new Prisma.Decimal(0);
+
+    for (const ticket of tickets) {
+      const ticketData = await prisma.ticket.findUnique({
+        where: { id: ticket.ticketId }
+      });
+
+      if (!ticketData) {
+        throw new Error(`Ticket not found for id ${ticket.ticketId}`);
       }
+
+      if (ticketData.quantity < ticket.quantity) {
+        throw new Error(`Not enough tickets available for id ${ticket.ticketId}`);
+      }
+
+      totalPrice = totalPrice.add(ticketData.price.mul(ticket.quantity));
+    }
+
+    const verificationCode = this.generateVerificationCode();
+
+    const booking = await prisma.booking.create({
+      data: {
+        userId,
+        eventId,
+        quantity: tickets.reduce((sum, ticket) => sum + ticket.quantity, 0),
+        totalPrice,
+        verificationCode,
+        TicketBookings: {
+          create: tickets.map(ticket => ({
+            ticketId: ticket.ticketId,
+            quantity: ticket.quantity,
+          })),
+        },
+      },
+      include: {
+        event: true,
+        TicketBookings: true,
+        user: true,
+      }
+    });
+
+    for (const ticket of tickets) {
+      await prisma.ticket.update({
+        where: { id: ticket.ticketId },
+        data: {
+          quantity: {
+            decrement: ticket.quantity,
+          },
+        },
+      });
+    }
+
+    for (const attendee of attendeeDetails) {
+      await ticketService.generateTicket(booking.id, attendee);
+    }
+
+    return booking;
+  }
 
   async getBooking(bookingId: string): Promise<Booking | null> {
     return prisma.booking.findUnique({
       where: { id: bookingId },
       include: {
         event: true,
-        ticket: true,
+        TicketBookings: true,
+        user: true,
+      },
+    });
+  }
+
+  async getAllBookings(): Promise<Booking[]> {
+    return prisma.booking.findMany({
+      include: {
+        event: true,
+        TicketBookings: true,
         user: true,
       },
     });

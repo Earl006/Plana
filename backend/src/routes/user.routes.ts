@@ -15,5 +15,7 @@ router.post('/reject-manager', authenticateJWT, isAdmin, UserController.rejectMa
 router.post('/change-role', authenticateJWT, isAdmin, UserController.changeUserRole);
 router.get('/s/search-users', authenticateJWT, isAdmin, UserController.searchUsers);
 router.get('/u/stats', authenticateJWT, isAdmin, UserController.getUserStats);
+router.get('/manager/all', authenticateJWT, isAdmin, UserController.getManagers);
+router.get('/manager/requests', authenticateJWT, isAdmin, UserController.getManagerRequests);
 
 export default router;

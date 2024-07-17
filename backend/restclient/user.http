@@ -36,6 +36,10 @@ Content-Type: application/json
     "userId": "5de20edc-36f1-4388-a2ec-2dc61a571e10"
 }
 
+###GET MANAGER REQUESTS
+GET http://localhost:3000/api/user/manager/requests
+Authorization: Bearer 
+
 ###REJECT MANAGER ROLE
 POST http://localhost:3000/api/user/reject-manager
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJkYTQ1MGE0LTg2ZTItNGRkZC04YjhjLTZhNTIxOTU3ZjhhNyIsImVtYWlsIjoiZWFybGpvZTA2QG91dGxvb2suY29tIiwicGhvbmVOdW1iZXIiOiIrMjU0MTEyMjcyMjUwIiwicGFzc3dvcmRIYXNoIjoiJDJiJDEwJG5HbTQ1dDM3ZVM4QXllQlIvVHN0LmV6emkxalVGbU51WDU3VXNTVjd5U1IzaHlLbE8uOVVlIiwiZmlyc3ROYW1lIjoiRWFybGpvZSIsImxhc3ROYW1lIjoiS2FkaW1hIiwiYXZhdGFyVXJsIjoiaHR0cHM6Ly9zdGF0aWMudmVjdGVlenkuY29tL3N5c3RlbS9yZXNvdXJjZXMvcHJldmlld3MvMDA1LzU0NS8zMzUvbm9uXzJ4L3VzZXItc2lnbi1pY29uLXBlcnNvbi1zeW1ib2wtaHVtYW4tYXZhdGFyLWlzb2xhdGVkLW9uLXdoaXRlLWJhY2tvZ3J1bmQtdmVjdG9yLmpwZyIsInJvbGUiOiJBRE1JTiIsIm1hbmFnZXJSZXF1ZXN0U3RhdHVzIjoiUEVORElORyIsImNyZWF0ZWRBdCI6IjIwMjQtMDctMDZUMTA6Mzc6NTQuNDk3WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDctMDZUMTA6Mzc6NTQuNDk3WiIsInJlc2V0VG9rZW4iOm51bGwsInJlc2V0VG9rZW5FeHBpcnkiOm51bGwsImlhdCI6MTcyMDI2MjY4OSwiZXhwIjoxNzIwMjY2Mjg5fQ.IGkzifhR5_UWJ77j2z1-s8A9yp92M6B0nl-FMYVADc4
@@ -44,6 +48,8 @@ Content-Type: application/json
 {
     "userId": "5de20edc-36f1-4388-a2ec-2dc61a571e10"
 }
+###GET ALL MANAGERS
+GET http://localhost:3000/api/user/manager/all
 
 ###CHANGE ROLE
 POST http://localhost:3000/api/user/change-role

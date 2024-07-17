@@ -29,7 +29,24 @@ export class UserService {
       take,
     });
   }
-
+  static async getManagers(skip: number = 0, take: number = 10): Promise<User[]> {
+    return prisma.user.findMany({
+      where: {
+        role: 'EVENT_MANAGER',
+      },
+      skip,
+      take,
+    });
+  }
+  static async getManagerRequests(skip: number = 0, take: number = 10): Promise<User[]> {
+    return prisma.user.findMany({
+      where: {
+        managerRequestStatus: 'PENDING',
+      },
+      skip,
+      take,
+    });
+  }
   static async requestManagerRole(userId: string): Promise<User> {
     const templatePath = path.join(__dirname, '../mails/request-manager.ejs');
     const user = await prisma.user.findUnique({ where: { id: userId } });
