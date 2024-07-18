@@ -21,7 +21,6 @@ export class TicketService {
         },
       },
     });
-    
 
     if (!booking) {
       throw new Error('Booking not found');
@@ -48,7 +47,7 @@ export class TicketService {
     fs.writeFileSync(filePath, pdfBuffer);
 
     // Return the file path or URL
-    return `/tickets/${fileName}`;
+    return filePath; // Updated to return file path
   }
 
   private async createPDF(
@@ -107,5 +106,4 @@ export class TicketService {
       doc.end();
     });
   }
-  
 }

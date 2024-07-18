@@ -1,6 +1,7 @@
 import { PrismaClient, Prisma, Booking, User } from '@prisma/client';
 import { TicketService } from './ticket.service';
 import sendMail from '../bg-services/email.service';
+import path from 'path';
 
 const prisma = new PrismaClient();
 const ticketService = new TicketService();
@@ -64,9 +65,30 @@ export class BookingService {
       });
     }
 
+    const ticketFilePaths: string[] = [];
+
     for (const attendee of attendeeDetails) {
-      await ticketService.generateTicket(booking.id, attendee);
+      const filePath = await ticketService.generateTicket(booking.id, attendee);
+      ticketFilePaths.push(filePath);
     }
+
+    const attachments = ticketFilePaths.map(filePath => ({
+      filename: path.basename(filePath),
+      path: filePath,
+      contentType: 'application/pdf',
+    }));
+
+    await sendMail({
+      email: booking.user.email,
+      subject: 'Your Event Tickets',
+      template: path.join(__dirname, '../mails/tickets.ejs'),
+      body: {
+        firstName: booking.user.firstName,
+        lastName: booking.user.lastName,
+        eventTitle: booking.event.title,
+      },
+      attachments,
+    });
 
     return booking;
   }

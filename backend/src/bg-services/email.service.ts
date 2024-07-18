@@ -6,7 +6,12 @@ interface EmailOptions {
   email: string;
   subject: string;
   template: string;
-  body:  any;
+  body: any;
+  attachments?: { 
+    filename: string;
+    path: string;
+    contentType: string;
+  }[];
 }
 
 const sendMail = async (options: EmailOptions): Promise<void> => {
@@ -18,18 +23,18 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
       secure: true, // true for port 465, false for other ports
       auth: {
         user: process.env.EMAIL_NAME,
-        pass: process.env.EMAIL_PASSWORD
+        pass: process.env.EMAIL_PASSWORD,
       },
       tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
       },
       socketTimeout: 30000, // 30 seconds
-      connectionTimeout: 30000 // 30 seconds
+      connectionTimeout: 30000, // 30 seconds
     });
 
     console.log('Transport created successfully');
 
-    const { email, subject, template, body } = options;
+    const { email, subject, template, body, attachments } = options;
     console.log('Rendering email template...');
     const html: string = await ejs.renderFile(template, body);
 
@@ -39,7 +44,8 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
       from: process.env.EMAIL_NAME,
       to: email,
       subject,
-      html
+      html,
+      attachments, // Add attachments to the mail options
     };
 
     console.log('Sending email to:', email);

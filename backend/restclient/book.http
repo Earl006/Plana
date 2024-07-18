@@ -8,7 +8,7 @@ Content-Type: application/json
   "tickets": [
     {
       "ticketId": "84f9763b-0eac-4dbf-a54e-7724fa6e30b5",
-      "quantity": 1
+      "quantity": 2
     },
     {
       "ticketId": "7fd8af1c-1bec-43c9-8447-650171675c19",
@@ -25,7 +25,13 @@ Content-Type: application/json
       "firstName": "Mak",
       "lastName": "Ndigi",
       "ticketType": "Regular"
+    },
+    {
+      "firstName": "Mwangi",
+      "lastName": "Ndungu",
+      "ticketType": "Regular"
     }
+
   ]
 }
 
