@@ -1,37 +1,47 @@
-
 <app-navbar></app-navbar>
 
-<section class="py-16 h-screen mb-40">
-<div class="container mx-auto ">
-  <h1 class="text-4xl font-bold text-white mb-8 text-center">My Bookings</h1>
-  <div *ngIf="bookings && bookings.length; else noBookings">
-    <div *ngFor="let booking of bookings" class="bg-gray-800 text-white p-6 rounded-lg shadow-lg mb-6 flex flex-col md:flex-row items-center md:items-start">
-      <div class="w-full md:w-3/4">
-        <h2 class="text-2xl font-bold mb-2">{{ booking.eventName }}</h2>
-        <p class="mb-1"><span class="font-semibold">Date:</span> {{ booking.eventDate | date }}</p>
-        <p class="mb-1"><span class="font-semibold">Time:</span> {{ booking.eventTime }}</p>
-        <p class="mb-1"><span class="font-semibold">Venue:</span> {{ booking.eventVenue }}</p>
-        <div class="mb-4">
-          <span class="font-semibold">Tickets:</span>
-          <ul class="list-disc list-inside">
-            <li *ngFor="let ticket of booking.tickets">
-              {{ ticket.type }} - {{ ticket.count }} x {{ ticket.price | currency }}
-            </li>
-          </ul>
-        </div>
-        <p class="mb-4"><span class="font-semibold">Total Price:</span> {{ booking.totalPrice | currency }}</p>
-      </div>
-      <div class="w-full md:w-1/4 flex justify-center md:justify-end mt-4 md:mt-0">
-        <button (click)="downloadTicket(booking)" class="bg-blue-800 text-white py-2 px-4 mr-4 rounded hover:bg-blue-700 transition">Download Tickets</button>
-        <button (click)="openCancelModal(booking)" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-500 transition">Cancel Booking</button>
-
-      </div>
+<section class="py-16 h-fit mb-40">
+  <div class="container mx-auto">
+    <h1 class="text-4xl font-bold text-white mb-8 text-center">My Bookings</h1>
+    <div *ngIf="bookings && bookings.length; else noBookings">
+      <table class="min-w-full bg-gray-800 text-white">
+        <thead>
+          <tr>
+            <th class="py-2 px-4">Event</th>
+            <th class="py-2 px-4">Date</th>
+            <th class="py-2 px-4">Time</th>
+            <th class="py-2 px-4">Venue</th>
+            <th class="py-2 px-4">Number of Tickets</th>
+            <th class="py-2 px-4">Total Price</th>
+            <th class="py-2 px-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookings">
+            <td class="py-2 px-4">{{ booking.eventName }}</td>
+            <td class="py-2 px-4">{{ booking.eventDate | date }}</td>
+            <td class="py-2 px-4">{{ booking.eventTime }}</td>
+            <td class="py-2 px-4">{{ booking.eventVenue }}</td>
+            <td class="py-2 px-4">{{booking.quantity}}</td>
+            <!-- <td class="py-2 px-4">
+              <ul class="list-disc list-inside">
+                <li *ngFor="let ticket of booking.tickets">
+                  {{ ticket.type }} - {{ ticket.count }} x {{ ticket.price | currency }}
+                </li>
+              </ul>
+            </td> -->
+            <td class="py-2 px-4">{{ booking.totalPrice | currency }}</td>
+            <td class="py-2 px-4">
+              <button (click)="downloadTicket(booking)" class="bg-blue-800 text-white py-2 px-4 mr-4 rounded hover:bg-blue-700 transition">Download Tickets</button>
+              <button (click)="openCancelModal(booking)" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-500 transition">Cancel Booking</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <ng-template #noBookings>
+      <p class="text-gray-400 text-center">You have no bookings.</p>
+    </ng-template>
+    <app-confirm-modal [show]="showCancelModal" (confirmed)="cancelBooking()" (closed)="closeCancelModal()"></app-confirm-modal>
   </div>
-  <ng-template #noBookings>
-    <p class="text-gray-400 text-center">You have no bookings.</p>
-  </ng-template>
-  <app-confirm-modal [show]="showCancelModal" (confirmed)="cancelBooking()" (closed)="closeCancelModal()"></app-confirm-modal>
-
-</div>
 </section>

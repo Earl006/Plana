@@ -177,7 +177,7 @@ export class BookNowComponent implements OnInit {
       this.bookingService.createBooking(this.createBookingRequest()).subscribe(
         (response)=>{
           console.log('Booking made successfully');
-          this.router.navigate(['/bookings/success']);         
+          this.router.navigate(['/booking/success']);         
         },
         (error)=>{
           console.log('Error creating booking', error);

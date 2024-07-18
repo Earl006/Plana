@@ -2,14 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { NavbarComponent } from '../../global/navbar/navbar.component';
+import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';
 
 interface Booking {
+  id: string;
   eventName: string;
   eventDate: Date;
   eventTime: string;
   eventVenue: string;
   tickets: Ticket[];
   totalPrice: number;
+  quantity: number;
 }
 
 interface Ticket {
@@ -29,40 +33,52 @@ export class MyBookingsComponent implements OnInit {
   bookings: Booking[] = [];
   showCancelModal = false;
   bookingToCancel: any;
+  userId: string = '';
 
-  constructor() { }
+  constructor(private bookingService: BookingService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    // Fetch booking data from an API or service
-    this.bookings = [
-        {
-          eventName: 'Concert A',
-          eventDate: new Date('2024-08-12'),
-          eventTime: '7:00 PM',
-          eventVenue: 'Stadium 1',
-          tickets: [
-            { type: 'VIP', count: 2, price: 50 },
-            { type: 'Regular', count: 1, price: 25 }
-          ],
-          totalPrice: 125
-        },
-        {
-          eventName: 'Concert B',
-          eventDate: new Date('2024-09-15'),
-          eventTime: '8:00 PM',
-          eventVenue: 'Stadium 2',
-          tickets: [
-            { type: 'Standard', count: 4, price: 50 },
-          ],
-          totalPrice: 200
-        }
-    ];
-   
+    this.userId = this.authService.getUserId()!;
+    if (this.userId) {
+      this.fetchBookings();
+    } else {
+      console.error('User ID not found');
+    }
   }
+
+  fetchBookings(): void {
+    this.bookingService.getBooking(this.userId).subscribe(response => {
+      console.log('Bookings data:', response);
+      const bookingsData = response.bookings || []; 
+      if (Array.isArray(bookingsData)) {
+        this.bookings = bookingsData.map((booking: any) => ({
+          id: booking.id,
+          eventName: booking.event.title,
+          eventDate: new Date(booking.event.date),
+          eventTime: new Date(booking.event.date).toLocaleTimeString(),
+          eventVenue: booking.event.location,
+          quantity: booking.TicketBookings.length,
+          tickets: booking.TicketBookings.map((ticketBooking: any) => ({
+            type: ticketBooking.type || 'Unknown', 
+            count: ticketBooking.legnth,
+            price: ticketBooking.price || 0 
+          })),
+          totalPrice: booking.totalPrice
+        }));
+      } else {
+        console.error('Unexpected data format:', response);
+      }
+    }, error => {
+      console.error('Error fetching bookings:', error);
+    });
+  }
+  
+  
+
   downloadTicket(booking: Booking): void {
-    // Handle ticket download logic here
     alert(`Download ticket for ${booking.eventName}`);
   }
+
   openCancelModal(booking: any) {
     this.bookingToCancel = booking;
     this.showCancelModal = true;
@@ -71,13 +87,12 @@ export class MyBookingsComponent implements OnInit {
   closeCancelModal() {
     this.showCancelModal = false;
   }
+
   cancelBooking() {
-    // Implement your cancel booking logic here
     const index = this.bookings.indexOf(this.bookingToCancel);
     if (index > -1) {
       this.bookings.splice(index, 1);
     }
     this.closeCancelModal();
-  
   }
 }

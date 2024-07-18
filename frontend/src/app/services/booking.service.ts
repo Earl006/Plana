@@ -28,6 +28,9 @@ export class BookingService {
       params: { verificationCode }
     });
   }
+  getBooking(userId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/user/${userId}`, { headers: this.getHeaders() });
+  }
 
   getAllBookings(): Observable<any> {
     return this.http.get(`${this.baseUrl}/all`, { headers: this.getHeaders() });
