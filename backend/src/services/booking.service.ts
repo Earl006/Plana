@@ -114,6 +114,17 @@ export class BookingService {
     });
   }
 
+  async getBookingsByUser(userId: string): Promise<Booking[]> {
+    return prisma.booking.findMany({
+      where: { userId },
+      include: {
+        event: true,
+        TicketBookings: true,
+        user: true,
+      },
+    });
+  }
+
   async verifyBooking(bookingId: string, verificationCode: string): Promise<boolean> {
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },

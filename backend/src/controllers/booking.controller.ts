@@ -41,6 +41,20 @@ export  const getAllBookings = async (req: Request, res: Response): Promise<void
     res.status(500).json({ error: 'Failed to fetch bookings' });
   }
   }
+  export const getBookingsByUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { userId } = req.params;
+      const bookings = await bookingService.getBookingsByUser(userId);
+      if (bookings) {
+        res.status(200).json({ bookings });
+      } else {
+        res.status(404).json({ error: 'Bookings not found' });
+      }
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+      res.status(500).json({ error: 'Failed to fetch bookings' });
+    }
+  }
 
 export const verifyBooking = async (req: Request, res: Response): Promise<void> => {
   try {
