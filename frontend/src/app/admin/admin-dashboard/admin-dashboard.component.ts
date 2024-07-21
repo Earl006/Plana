@@ -4,6 +4,7 @@ import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component'
 import { TopbarComponent } from '../../event-manager/topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service'; // Adjust the import path as needed
 
 interface Notification {
   message: string;
@@ -21,20 +22,22 @@ interface Event {
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  standalone:true,
-  imports:[AdminSidebarComponent,TopbarComponent,CommonModule, RouterModule],
+  standalone: true,
+  imports: [AdminSidebarComponent, TopbarComponent, CommonModule, RouterModule],
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  eventManagers: number = 12;
-  users: number = 570;
-  allEvents: number = 120;
-  revenue: number = 45000;
+  eventManagers: number = 0;
+  users: number = 0;
+  admins: number = 0;
+  attendees: number = 0;
+  allEvents: number = 120; // You might want to fetch this from an API as well
+  revenue: number = 45000; // You might want to fetch this from an API as well
   notifications: Notification[] = [];
   upcomingEvents: Event[] = [];
   hasMoreEvents: boolean = true;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.loadDashboardData();
@@ -43,7 +46,18 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   loadDashboardData() {
-    // Mock data is already set in the properties
+    this.userService.getUserStats().subscribe(
+      (data) => {
+        this.users = data.total;
+        this.admins = data.byRole.ADMIN;
+        this.attendees = data.byRole.ATTENDEE;
+        this.eventManagers = data.byRole.EVENT_MANAGER;
+      },
+      (error) => {
+        console.error('Error fetching user stats:', error);
+        // Handle error (e.g., show an error message to the user)
+      }
+    );
   }
 
   loadNotifications() {
@@ -64,10 +78,6 @@ export class AdminDashboardComponent implements OnInit {
 
   viewReports() {
     console.log('Viewing reports...');
-  }
-
-  manageStaff() {
-    console.log('Managing staff...');
   }
 
   sendAnnouncements() {

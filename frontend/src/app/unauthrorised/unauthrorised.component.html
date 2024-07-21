@@ -1,0 +1,17 @@
+<!-- unauthorized.component.html -->
+<app-navbar></app-navbar>
+<div class="flex items-center justify-center min-h-screen bg-[#010A1A] text-white">
+    <div class="text-center">
+      <svg class="mx-auto mb-6" width="150" height="150" viewBox="0 0 24 24">
+        <path fill="#FF6B6B" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <h1 class="text-4xl font-bold mb-4">403 - Unauthorized</h1>
+      <p class="text-xl mb-8">Oops! You don't have permission to access this page.</p>
+      <button 
+        (click)="goToHome()" 
+        class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-300 ease-in-out"
+      >
+        Go to Home
+      </button>
+    </div>
+  </div>

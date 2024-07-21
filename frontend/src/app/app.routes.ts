@@ -29,35 +29,47 @@ import { AdminCategoriesComponent } from './admin/admin-categories/admin-categor
 import { AdminManagerRequestsComponent } from './admin/admin-manager-requests/admin-manager-requests.component';
 import { AdminBookingsComponent } from './admin/admin-bookings/admin-bookings.component';
 import { BookingSuccessComponent } from './user/booking-success/booking-success.component';
+import { AdminGuard, AttendeeGuard, AuthGuard, EventManagerGuard } from './guards/auth-guard.guard';
+import { UnauthrorisedComponent } from './unauthrorised/unauthrorised.component';
 
 export const routes: Routes = [
+  // ATTENDEE
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'events', component: EventsComponent },
   { path: 'eventdetails/:id', component: EventDetailsComponent },
-  { path: 'wishlist', component: WishlistComponent },
-  { path: 'book-now/:id', component: BookNowComponent },
+  { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard, AttendeeGuard] },
+  { path: 'book-now/:id', component: BookNowComponent, canActivate: [AuthGuard, AttendeeGuard] },
   { path: 'login', component: AuthComponent, data: { mode: 'login' } },
   { path: 'register', component: AuthComponent, data: { mode: 'register' } },
-  { path: 'my-bookings', component: MyBookingsComponent },
-  { path: 'booking/success', component:BookingSuccessComponent},
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'profile', component: EditProfileComponent },
-  { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'dashboard',component:DashboardComponent},
-  { path: 'my-events', component: MyEventsComponent },
-  { path: 'add-event', component: AddEventComponent },
-  { path: 'edit-event/:id', component: EditEventComponent },
-  { path: 'attendee-lists', component:AtendeeListsComponent},
-  { path: 'my-calendar', component: MyCalendarComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent},
-  { path: 'admin-users', component: AdminUsersComponent},
-  { path: 'admin-events', component:AdminEventsComponent},
-  { path: 'admin-categories', component:AdminCategoriesComponent},
-  { path: 'admin-manager-requests', component:AdminManagerRequestsComponent},
-  { path: 'admin-bookings', component:AdminBookingsComponent}
-  // other routes
+  { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard, AttendeeGuard] },
+  { path: 'booking/success', component: BookingSuccessComponent, canActivate: [AuthGuard, AttendeeGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: EditProfileComponent, canActivate: [AuthGuard] },
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
+
+  // EVENT MANAGER
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'my-events', component: MyEventsComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'add-event', component: AddEventComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'edit-event/:id', component: EditEventComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'attendee-lists', component: AtendeeListsComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'my-calendar', component: MyCalendarComponent, canActivate: [AuthGuard, EventManagerGuard] },
+
+  // ADMIN
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-users', component: AdminUsersComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-events', component: AdminEventsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-categories', component: AdminCategoriesComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-manager-requests', component: AdminManagerRequestsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-bookings', component: AdminBookingsComponent, canActivate: [AuthGuard, AdminGuard] },
+
+  // 403 Unauthorized
+  { path: 'Unauthorised', component: UnauthrorisedComponent },
+
+  // Catch-all route for undefined routes
+  { path: '**', redirectTo: '/Unauthorised' }
 ];
 
 @NgModule({

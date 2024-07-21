@@ -26,6 +26,43 @@ export class AuthService {
     });
   }
 
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp > (Date.now() / 1000);
+    }
+    return false;
+  }
+
+isAttendee(): boolean {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role === 'ATTENDEE';
+  }
+
+  return false;
+}
+
+isEventManager(): boolean {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role === 'EVENT_MANAGER';
+  }
+  return false;
+}
+
+isAdmin(): boolean {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.role === 'ADMIN';
+  }
+  return false;
+}
+
   changePassword(changePasswordRequest: any, token: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/change-password`, changePasswordRequest, {
       headers: new HttpHeaders({
