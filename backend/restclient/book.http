@@ -1,5 +1,5 @@
 POST http://localhost:3000/api/booking/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUyMTliMS1lY2UwLTQ0YWUtYWFjZS01MGQzNDQ3ZjlhNDIiLCJlbWFpbCI6InJpZ2h0bWVuY3VzdG9tekBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IisyNTQxMTIyNzIyNTMiLCJmaXJzdE5hbWUiOiJNYXJrIiwibGFzdE5hbWUiOiJOZGl3aWdhIiwicm9sZSI6IkFUVEVOREVFIiwiaWF0IjoxNzIxMjA5Nzk3LCJleHAiOjE3MjEyMjQxOTd9.1q_SrWAWQxE4ZiYyyvG5_nvhVdnxhc0Kdw7av4rbyG4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNDdkNGRjYS1iZGU2LTQwNzctOTcxNC0xYTA1OTNhY2IwNTkiLCJlbWFpbCI6ImVhcmxqb2UwNkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IjAxMTIyNzIyNTAiLCJmaXJzdE5hbWUiOiJFYXJsam9lIiwibGFzdE5hbWUiOiJLYWRpbWEiLCJyb2xlIjoiQVRURU5ERUUiLCJpYXQiOjE3MjEzODY4NTcsImV4cCI6MTcyMTQwMTI1N30.NSiA4oLN4eSk5pBVARr9Qpltz1Xgzw2IwBsCnLe5kG4
 Content-Type: application/json
 
 {
@@ -17,18 +17,18 @@ Content-Type: application/json
   ],
   "attendeeDetails": [
     {
-      "firstName": "Wekesa",
-      "lastName": "Kadima",
+      "firstName": "John",
+      "lastName": "Doe",
       "ticketType": "VIP"
     },
     {
-      "firstName": "Mak",
-      "lastName": "Ndigi",
+      "firstName": "Jane",
+      "lastName": "Doe",
       "ticketType": "Regular"
     },
     {
-      "firstName": "Mwangi",
-      "lastName": "Ndungu",
+      "firstName": "Daniel",
+      "lastName": "Kitheka",
       "ticketType": "Regular"
     }
 
@@ -37,14 +37,18 @@ Content-Type: application/json
 
 
 ###VERIFY BOOKING
-GET http://localhost:3000/api/booking/verify/258ca02a-9416-47ff-88bf-2e48738c2876
+POST  http://localhost:3000/api/booking/verify/ffc73660-bd1f-4b7d-a139-a5adc09cf1a1
 Authorization: Bearer 
 Content-Type: application/json
 
 {
-    "verificationCode": "XX2RKYHV7B"
+    "verificationCode": "51POM2R3EQ"
 }
 
 ###GET ALL BOOKINGS
 GET http://localhost:3000/api/booking/all
+
+
+###GET BOOKING BY USER ID
+GET http://localhost:3000/api/booking/user/675219b1-ece0-44ae-aace-50d3447f9a42
 

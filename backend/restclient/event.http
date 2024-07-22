@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api/event
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZGUyMGVkYy0zNmYxLTQzODgtYTJlYy0yZGM2MWE1NzFlMTAiLCJlbWFpbCI6ImVhcmxqb2UwNkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IisyNTQxMTIyNzIyNTAiLCJmaXJzdE5hbWUiOiJKT2huIiwibGFzdE5hbWUiOiJLYWRpbWEiLCJyb2xlIjoiRVZFTlRfTUFOQUdFUiIsImlhdCI6MTcyMDMwNDM2NiwiZXhwIjoxNzIwMzA3OTY2fQ.01ubUqRUl1woRkCZOglmwdZ3_7Ep1MwNnmUDRpgloeE
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MzI1ZGI2ZC0yYTc3LTQ3YWMtYjFhNC0wYjc4ZDc2YjdjN2UiLCJlbWFpbCI6ImFuZ2VsYWtvbHdhQGdtYWlsLmNvbSIsInBob25lTnVtYmVyIjoiMDExNTQ2Nzg5MiIsImZpcnN0TmFtZSI6IkFuZ2VsYSIsImxhc3ROYW1lIjoiS29sd2EiLCJyb2xlIjoiRVZFTlRfTUFOQUdFUiIsImlhdCI6MTcyMTM4NjQ0NSwiZXhwIjoxNzIxNDAwODQ1fQ.fJfQKw0xJ2iMYstpMK9xItxar9DK2HN04iiJujVD6f0
 
 ### Create a new event with tickets
 POST {{baseUrl}}/create
@@ -25,7 +25,7 @@ Central Park, New York
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="categoryId"
 
-f17ff256-d6b3-4bc1-b095-fd18a3d424d0
+0a7ec11b-2789-4175-84aa-d3d77bec95c3
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="poster"; filename="clubMbuzi.png"
 Content-Type: image/png
@@ -35,7 +35,7 @@ Content-Type: image/png
 Content-Disposition: form-data; name="tickets"
 Content-Type: application/json
 
-[{"type": "General Admission", "price": 50, "quantity": 1000}, {"type": "VIP", "price": 150, "quantity": 100}]
+[{"type": "Regular", "price": 50, "quantity": 1000}, {"type": "VIP", "price": 150, "quantity": 100}]
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 
@@ -46,7 +46,7 @@ GET {{baseUrl}}/all
 GET {{baseUrl}}/d629e443-7c53-48a4-93b3-b44d487da789
 
 ### Update an event
-PUT {{baseUrl}}/update/d629e443-7c53-48a4-93b3-b44d487da789
+PUT {{baseUrl}}/update/f2636584-8f70-4208-ae03-ea337420e4d9
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -55,12 +55,13 @@ Content-Type: application/json
   "description": "A weekend of great music and mad fun",
   "date": "2023-07-15T18:00:00Z",
   "location": "Chuka",
-  "categoryId": "f17ff256-d6b3-4bc1-b095-fd18a3d424d0",
+  "categoryId": "0a7ec11b-2789-4175-84aa-d3d77bec95c3",
   "tickets": "[{\"type\": \"General Admission\", \"price\": 5000, \"quantity\": 1000}, {\"type\": \"VIP\", \"price\": 10000, \"quantity\": 100}]"
 }
 
 ###GET all events in a category
-GET {{baseUrl}}/category/f17ff256-d6b3-4bc1-b095-fd18a3d424d0
+GET {{baseUrl}}/category/0a7ec11b-2789-4175-84aa-d3d77bec95c3
+
 
 ###GET EVENTS BY Manager
 GET {{baseUrl}}/manager/5de20edc-36f1-4388-a2ec-2dc61a571e10
@@ -72,7 +73,7 @@ Content-Type: application/json
 
 
 ### Update event poster
-PUT {{baseUrl}}/update-poster/d629e443-7c53-48a4-93b3-b44d487da789
+PUT {{baseUrl}}/update-poster/f2636584-8f70-4208-ae03-ea337420e4d9
 Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -84,6 +85,6 @@ Content-Type: image/png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### Delete an event
-DELETE {{baseUrl}}/bba594a9-c6c1-4876-8546-bdbb275d05f3
+DELETE {{baseUrl}}/f2636584-8f70-4208-ae03-ea337420e4d9
 Authorization: Bearer {{authToken}}
 

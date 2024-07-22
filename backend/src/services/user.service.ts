@@ -95,6 +95,30 @@ export class UserService {
     });
   }
 
+  static async isAttendee(userId: string): Promise<boolean> {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user.role === 'ATTENDEE';
+  }
+
+  static async isEventManager(userId: string): Promise<boolean> {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user.role === 'EVENT_MANAGER';
+  }
+
+  static async isAdmin(userId: string): Promise<boolean> {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user.role === 'ADMIN';
+  }
+
   static async rejectManagerRequest(userId: string): Promise<User> {
     const templatePath = path.join(__dirname, '../mails/reject-request.ejs');
     const user = await prisma.user.findUnique({ where: { id: userId } });

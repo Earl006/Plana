@@ -1,5 +1,6 @@
 import { PrismaClient, Event, Ticket, Prisma } from '@prisma/client';
 import { uploadToCloudinary } from '../utils/cloudinaryUtil';
+import chatService from './chat.service';
 
 const prisma = new PrismaClient();
 
@@ -21,6 +22,8 @@ export class EventService {
     posterFile: Express.Multer.File
   ) {
     const posterUrl = await uploadToCloudinary(posterFile);
+
+    await chatService.createRoom(eventData.title);
 
     return prisma.event.create({
       data: {

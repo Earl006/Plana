@@ -56,20 +56,34 @@ export  const getAllBookings = async (req: Request, res: Response): Promise<void
     }
   }
 
-export const verifyBooking = async (req: Request, res: Response): Promise<void> => {
+  export const verifyBooking = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { bookingId } = req.params;
+      const { verificationCode } = req.body;
+      
+      if (!verificationCode) {
+        res.status(400).json({ error: 'Verification code is required' });
+        return;
+      }
+  
+      const result = await bookingService.verifyBooking(bookingId, verificationCode);
+      if (result.valid) {
+        res.status(200).json({ message: result.message, valid: true, debug: result.debug });
+      } else {
+        res.status(400).json({ message: result.message, valid: false, debug: result.debug });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to verify booking', debug: { error: String(error) } });
+    }
+  };
+
+export const cancelBooking = async (req: Request, res: Response): Promise<void> => {
   try {
     const { bookingId } = req.params;
-    const { verificationCode } = req.body;
-    
-    if (!verificationCode) {
-      res.status(400).json({ error: 'Verification code is required' });
-      return;
-    }
-
-    const isValid = await bookingService.verifyBooking(bookingId, verificationCode);
-    res.status(200).json({ valid: isValid });
+    const booking = await bookingService.cancelBooking(bookingId);
+    res.status(200).json({ booking });
   } catch (error) {
-    console.error('Error verifying booking:', error);
-    res.status(500).json({ error: 'Failed to verify booking' });
+    console.error('Error canceling booking:', error);
+    res.status(500).json({ error: 'Failed to cancel booking' });
   }
-};
+}

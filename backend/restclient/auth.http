@@ -3,10 +3,10 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "email":"rightmencustomz@gmail.com",
+    "email":"gamesmy177@gmail.com",
     "password": "password",
-    "firstName": "Mark",
-    "lastName": "Ndiwiga",
+    "firstName": "Daniel",
+    "lastName": "Kitheka",
     "phoneNumber": "+254112272253"
 }
 
@@ -15,19 +15,19 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email":"rightmencustomz@gmail.com",
-    "password": "password"
+    "email":"earljoe06@gmail.com",
+    "password": "12345678"
 }
 
 ###CHANGE PASSWORD
 POST http://localhost:3000/api/auth/change-password
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhiZDllZDgzLWU4ZGYtNDkxMy1hZjEwLTc4NTViZWY1MGU2NyIsImVtYWlsIjoiZG9lam9obkB5b3BtYWlsLmNvbSIsInBob25lTnVtYmVyIjoiKzI1NDcxMjM0NTY3OCIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRkVmlBUEFzUWc5emFvVDdJcDFvUkJ1RGtHNUM2cm8uR2YyY1ZFclRtLzBWbWlFUlA0VnJaaSIsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImF2YXRhclVybCI6Imh0dHBzOi8vc3RhdGljLnZlY3RlZXp5LmNvbS9zeXN0ZW0vcmVzb3VyY2VzL3ByZXZpZXdzLzAwNS81NDUvMzM1L25vbl8yeC91c2VyLXNpZ24taWNvbi1wZXJzb24tc3ltYm9sLWh1bWFuLWF2YXRhci1pc29sYXRlZC1vbi13aGl0ZS1iYWNrb2dydW5kLXZlY3Rvci5qcGciLCJyb2xlIjoiQVRURU5ERUUiLCJtYW5hZ2VyUmVxdWVzdFN0YXR1cyI6IlBFTkRJTkciLCJjcmVhdGVkQXQiOiIyMDI0LTA3LTA1VDE5OjMzOjQ3LjQ2MloiLCJ1cGRhdGVkQXQiOiIyMDI0LTA3LTA1VDE5OjM4OjI5LjEyNFoiLCJyZXNldFRva2VuIjpudWxsLCJyZXNldFRva2VuRXhwaXJ5IjpudWxsLCJpYXQiOjE3MjAyNTY5MTAsImV4cCI6MTcyMDI2MDUxMH0.WnU1Mb1m1YVkO5-VlFnuMiwdL0AGxuebWMbtjPfQrkk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1N2U5NjgwOC1lNWE5LTRjYjYtOTAwZC04NDBkNGE3ODE3ZmYiLCJlbWFpbCI6ImdhbWVzbXkxNzdAZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIrMjU0MTEyMjcyMjUzIiwiZmlyc3ROYW1lIjoiRGFuaWVsIiwibGFzdE5hbWUiOiJLaXRoZWthIiwicm9sZSI6IkFUVEVOREVFIiwiaWF0IjoxNzIxMzg1OTU5LCJleHAiOjE3MjE0MDAzNTl9.jaXh4aJFgIwy3XkY7g5onENcUZ2edMje57k0vcpB3Jg
 Content-Type: application/json
 
 {
-    "userId": "8bd9ed83-e8df-4913-af10-7855bef50e67",
-    "oldPassword": "newpassword",
-    "newPassword": "password"
+    "userId": "57e96808-e5a9-4cb6-900d-840d4a7817ff",
+    "oldPassword": "password",
+    "newPassword": "newpassword"
 }
 
 ###REQUEST PASSWORD RESET

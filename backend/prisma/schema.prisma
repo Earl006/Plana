@@ -23,6 +23,7 @@ model User {
   resetTokenExpiry     DateTime?
   bookings             Booking[]
   managedEvents        Event[]   @relation("EventManager")
+  messages             Message[] @relation("UserMessages")
 }
 
 model Category {
@@ -67,6 +68,7 @@ model Booking {
   totalPrice        Decimal
   status            String          @default("CONFIRMED")
   verificationCode  String?
+  verified          Boolean         @default(false)
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   event             Event           @relation(fields: [eventId], references: [id], onUpdate: NoAction)
@@ -81,4 +83,22 @@ model TicketBooking {
   quantity  Int
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   ticket    Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model Room {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+}
+
+model Message {
+  id        String    @id @default(uuid())
+  content   String
+  senderId  String
+  roomId    String
+  createdAt DateTime  @default(now())
+  sender    User      @relation("UserMessages", fields: [senderId], references: [id])
+  room      Room      @relation(fields: [roomId], references: [id])
 }

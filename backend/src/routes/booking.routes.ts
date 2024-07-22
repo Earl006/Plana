@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.post('/create',authenticateJWT, createBooking);
 router.get('/bookings/:bookingId', getBooking);
-router.get('/verify/:bookingId/', verifyBooking);
-router.get('/all',getAllBookings);
-router.get('/user/:userId', getBookingsByUser);
+router.post('/verify/:bookingId', verifyBooking);
+router.get('/all',authenticateJWT,isAdmin,getAllBookings);
+router.get('/user/:userId',authenticateJWT, getBookingsByUser);
+router.delete('/cancel/:bookingId',authenticateJWT, verifyBooking);
 
 
 export default router;

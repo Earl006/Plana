@@ -17,5 +17,8 @@ router.get('/s/search-users', authenticateJWT, isAdmin, UserController.searchUse
 router.get('/u/stats', authenticateJWT, isAdmin, UserController.getUserStats);
 router.get('/manager/all', authenticateJWT, isAdmin, UserController.getManagers);
 router.get('/manager/requests', authenticateJWT, isAdmin, UserController.getManagerRequests);
+router.get('/auth/isAdmin', authenticateJWT, isAdmin, UserController.isAdmin);
+router.get('/auth/isManager', authenticateJWT, isAdmin, UserController.isEventManager);
+router.get('/auth/isUser', authenticateJWT, isAdmin, UserController.isAttendee);
 
 export default router;

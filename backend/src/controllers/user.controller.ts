@@ -77,6 +77,36 @@ export class UserController {
     }
   }
 
+  static async isAttendee(req: Request, res: Response): Promise<Response> {
+    try {
+      const { userId } = req.body;
+      const user = await UserService.isAttendee(userId);
+      return res.status(200).json(user);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async isEventManager(req: Request, res: Response): Promise<Response> {
+    try {
+      const { userId } = req.body;
+      const user = await UserService.isEventManager(userId);
+      return res.status(200).json(user);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async isAdmin(req: Request, res: Response): Promise<Response> {
+    try {
+      const { userId } = req.body;
+      const user = await UserService.isAdmin(userId);
+      return res.status(200).json(user);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+  
   static async requestManagerRole(req: Request, res: Response): Promise<Response> {
     try {
       const { userId } = req.body;

@@ -125,26 +125,148 @@ export class BookingService {
     });
   }
 
-  async verifyBooking(bookingId: string, verificationCode: string): Promise<boolean> {
+  async cancelBooking(bookingId: string): Promise<Booking> {
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
-      include: { event: true },
+      include: { TicketBookings: true },
     });
 
     if (!booking) {
-      return false;
+      throw new Error(`Booking not found for id ${bookingId}`);
     }
 
-    // Check if the provided verification code matches the stored one
-    if (booking.verificationCode !== verificationCode) {
-      return false;
+    for (const ticketBooking of booking.TicketBookings) {
+      await prisma.ticket.update({
+        where: { id: ticketBooking.ticketId },
+        data: {
+          quantity: {
+            increment: ticketBooking.quantity,
+          },
+        },
+      });
     }
 
-    // Check if the event date is today or in the future
+    return prisma.booking.delete({
+      where: { id: bookingId },
+    });
+  }
+
+  async verifyBooking(bookingId: string, verificationCode: string): Promise<{ 
+    valid: boolean; 
+    message: string;
+    debug: {
+      bookingFound: boolean;
+      verificationMatch: boolean;
+      eventNotPassed: boolean;
+      updateSuccessful: boolean;
+    }
+  }> {
+    let booking;
+    try {
+      booking = await prisma.booking.findUnique({
+        where: { id: bookingId },
+        include: { event: true },
+      });
+    } catch (error) {
+      return { 
+        valid: false, 
+        message: "Error fetching booking details",
+        debug: {
+          bookingFound: false,
+          verificationMatch: false,
+          eventNotPassed: false,
+          updateSuccessful: false
+        }
+      };
+    }
+  
+    if (!booking) {
+      return { 
+        valid: false, 
+        message: "Booking not found",
+        debug: {
+          bookingFound: false,
+          verificationMatch: false,
+          eventNotPassed: false,
+          updateSuccessful: false
+        }
+      };
+    }
+  
+    if (booking.verified) {
+      return { 
+        valid: false, 
+        message: "Booking has already been verified",
+        debug: {
+          bookingFound: true,
+          verificationMatch: false,
+          eventNotPassed: false,
+          updateSuccessful: false
+        }
+      };
+    }
+  
+    const verificationMatch = booking.verificationCode === verificationCode;
+    if (!verificationMatch) {
+      return { 
+        valid: false, 
+        message: "Invalid verification code",
+        debug: {
+          bookingFound: true,
+          verificationMatch: false,
+          eventNotPassed: false,
+          updateSuccessful: false
+        }
+      };
+    }
+  
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const eventNotPassed = booking.event.date >= today;
     
-    return booking.event.date >= today;
+    if (!eventNotPassed) {
+      return { 
+        valid: false, 
+        message: "This event has already passed",
+        debug: {
+          bookingFound: true,
+          verificationMatch: true,
+          eventNotPassed: false,
+          updateSuccessful: false
+        }
+      };
+    }
+  
+    let updateSuccessful = false;
+    try {
+      await prisma.booking.update({
+        where: { id: bookingId },
+        data: { verified: true },
+      });
+      updateSuccessful = true;
+    } catch (error) {
+      return { 
+        valid: false, 
+        message: "Error updating booking",
+        debug: {
+          bookingFound: true,
+          verificationMatch: true,
+          eventNotPassed: true,
+          updateSuccessful: false
+        }
+      };
+    }
+  
+    return { 
+      valid: true, 
+      message: "Booking verified successfully",
+      debug: {
+        bookingFound: true,
+        verificationMatch: true,
+        eventNotPassed: true,
+        updateSuccessful: true
+      }
+    };
   }
 
   private generateVerificationCode(): string {
