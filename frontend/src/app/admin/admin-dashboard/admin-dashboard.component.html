@@ -2,100 +2,106 @@
     <app-topbar></app-topbar>
     <app-admin-sidebar></app-admin-sidebar>
     <div class="p-6 flex-1 overflow-y-auto">
-        <!-- Key Metrics -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-                <h3 class="text-xl mb-2">Event Managers</h3>
-                <p class="text-4xl font-bold">{{eventManagers}}</p>
-            </div>
-            <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-                <h3 class="text-xl mb-2">Users</h3>
-                <p class="text-4xl font-bold">{{users}}</p>
-            </div>
-            <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-                <h3 class="text-xl mb-2">Attendees</h3>
-                <p class="text-4xl font-bold">{{attendees}}</p>
-            </div>
-            <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-                <h3 class="text-xl mb-2">Admins</h3>
-                <p class="text-4xl font-bold">{{admins}}</p>
-            </div>
+      <!-- Key Metrics -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+          <h3 class="text-xl mb-2">Event Managers</h3>
+          <p class="text-4xl font-bold">{{eventManagers}}</p>
         </div>
+        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+          <h3 class="text-xl mb-2">Users</h3>
+          <p class="text-4xl font-bold">{{users}}</p>
+        </div>
+        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+          <h3 class="text-xl mb-2">Attendees</h3>
+          <p class="text-4xl font-bold">{{attendees}}</p>
+        </div>
+        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+          <h3 class="text-xl mb-2">Admins</h3>
+          <p class="text-4xl font-bold">{{admins}}</p>
+        </div>
+      </div>
   
-        <!-- Quick Actions and Notifications -->
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2">
-                <h2 class="text-2xl mb-4">Quick Actions</h2>
-                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                    <div class="grid grid-cols-2 gap-4">
-                        <button routerLink="/admin-events" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 16.292969 8.2929688 L 10 14.585938 L 7.7070312 12.292969 L 6.2929688 13.707031 L 10 17.414062 L 17.707031 9.7070312 L 16.292969 8.2929688 z"></path>
-                            </svg>
-                            View Events
-                        </button>
-                        <button (click)="viewReports()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2m0 0H9"></path></svg>
-                            View Reports
-                        </button>
-                        <button (click)="sendAnnouncements()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17a4 4 0 004 4m0 0a4 4 0 004-4m-4 4V5m0 16a4 4 0 01-4-4m8 4a4 4 0 004-4m0 0a4 4 0 00-4-4m4 4h.01M11 5h.01"></path></svg>
-                            Send Announcements
-                        </button>
-                    </div>
-                </div>
+      <!-- Quick Actions and Notifications -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl mb-4">Quick Actions</h2>
+          <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+            <div class="grid grid-cols-2 gap-4">
+              <button routerLink="/admin-events" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 16.292969 8.2929688 L 10 14.585938 L 7.7070312 12.292969 L 6.2929688 13.707031 L 10 17.414062 L 17.707031 9.7070312 L 16.292969 8.2929688 z"></path>
+                </svg>
+                View Events
+              </button>
+              <button (click)="viewReports()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2m0 0H9"></path></svg>
+                View Reports
+              </button>
+              <button (click)="sendAnnouncements()" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17a4 4 0 004 4m0 0a4 4 0 004-4m-4 4V5m0 16a4 4 0 01-4-4m8 4a4 4 0 004-4m0 0a4 4 0 00-4-4m4 4h.01M11 5h.01"></path></svg>
+                Send Announcements
+              </button>
             </div>
-            <div>
-                <h2 class="text-2xl mb-4">Notifications</h2>
-                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                    <ul class="space-y-4">
-                        <li *ngFor="let notification of notifications">
-                            <div class="bg-gray-700 p-3 rounded-lg flex justify-between">
-                                <span>{{notification.message}}</span>
-                                <span class="text-sm text-gray-500">{{notification.time}}</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <button (click)="viewAllNotifications()" class="mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
-                        View All
-                    </button>
-                </div>
-            </div>
+          </div>
         </div>
+        <div>
+          <h2 class="text-2xl mb-4">Notifications</h2>
+          <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+            <ul class="space-y-4">
+              <li *ngFor="let notification of notifications">
+                <div class="bg-gray-700 p-3 rounded-lg flex justify-between">
+                  <span>{{notification.message}}</span>
+                  <span class="text-sm text-gray-500">{{notification.time}}</span>
+                </div>
+              </li>
+            </ul>
+            <button (click)="viewAllNotifications()" class="mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
+              View All
+            </button>
+          </div>
+        </div>
+      </div>
   
-        <!-- Latest Upcoming Events -->
-        <div class="mt-8">
-            <h2 class="text-2xl mb-4">Latest Upcoming Events</h2>
-            <table class="min-w-full bg-gray-800 text-white border border-gray-700">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b border-gray-700">Title</th>
-                        <th class="py-2 px-4 border-b border-gray-700">Date</th>
-                        <th class="py-2 px-4 border-b border-gray-700">Registered / Capacity</th>
-                        <th class="py-2 px-4 border-b border-gray-700">Status</th>
-                        <th class="py-2 px-4 border-b border-gray-700">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let event of upcomingEvents">
-                        <td class="py-2 px-4 border-b border-gray-700">{{ event.title }}</td>
-                        <td class="py-2 px-4 border-b border-gray-700">{{ event.date | date: 'MMM d, y, h:mm a' }}</td>
-                        <td class="py-2 px-4 border-b border-gray-700">{{ event.registered }} / {{ event.capacity }}</td>
-                        <td class="py-2 px-4 border-b border-gray-700">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                  [ngClass]="getStatusClass(event.status)">
-                                {{ event.status }}
-                            </span>
-                        </td>
-                        <td class="py-2 px-4 border-b border-gray-700">
-                            <button (click)="manageEvent(event)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                                Manage
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
+      <!-- Latest Upcoming Events -->
+      <div class="mt-8">
+        <h2 class="text-2xl mb-4">Latest Upcoming Events</h2>
+        <table class="min-w-full bg-gray-800 text-white border border-gray-700">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b border-gray-700">Title</th>
+              <th class="py-2 px-4 border-b border-gray-700">Date</th>
+              <th class="py-2 px-4 border-b border-gray-700">Registered / Capacity</th>
+              <th class="py-2 px-4 border-b border-gray-700">Status</th>
+              <th class="py-2 px-4 border-b border-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of upcomingEvents">
+              <td class="py-2 px-4 border-b border-gray-700">{{ event.title }}</td>
+              <td class="py-2 px-4 border-b border-gray-700">{{ event.date | date: 'MMM d, y, h:mm a' }}</td>
+              <td class="py-2 px-4 border-b border-gray-700">{{ event.registered }} / {{ event.capacity }}</td>
+              <td class="py-2 px-4 border-b border-gray-700">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                      [ngClass]="getStatusClass(event.status)">
+                  {{ event.status }}
+                </span>
+              </td>
+              <td class="py-2 px-4 border-b border-gray-700">
+                <button (click)="manageEvent(event)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                  Manage
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Chat Component -->
+      <div class="mt-8">
+        <h2 class="text-2xl mb-4">Announcements</h2>
+        <app-chat></app-chat>
+      </div>
     </div>
-</div>
+  </div>
+  

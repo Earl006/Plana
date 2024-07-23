@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { booking } from '../interfaces/types';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class BookingService {
     return this.http.post(`${this.baseUrl}/verify/${bookingId}`, { verificationCode }, { headers: this.getHeaders() });
   }
 
-  getVerifiedBookings(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/bookings/v/verified`, { headers: this.getHeaders() });
+  getVerifiedBookings(){
+    return this.http.get<{bookings:booking[]}>(`${this.baseUrl}/bookings/v/verified`, { headers: this.getHeaders() });
   }
 
   getBooking(userId: string): Observable<any> {

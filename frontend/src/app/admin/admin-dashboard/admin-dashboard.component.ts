@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { EventService } from '../../services/events.service';
+import { ChatComponent } from '../../chat/chat/chat.component';
 
 interface Notification {
   message: string;
@@ -28,7 +29,7 @@ interface Event {
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   standalone: true,
-  imports: [AdminSidebarComponent, TopbarComponent, CommonModule, RouterModule],
+  imports: [AdminSidebarComponent, TopbarComponent, CommonModule, RouterModule, ChatComponent],
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
