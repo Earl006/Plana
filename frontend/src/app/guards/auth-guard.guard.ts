@@ -20,6 +20,9 @@ export class AuthGuard implements CanActivate {
   }
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class AttendeeGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 

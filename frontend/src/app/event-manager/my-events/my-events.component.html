@@ -23,8 +23,8 @@
             <p class="text-gray-300 mb-2">{{ event.date | date:'medium' }}</p>
             <p class="text-gray-300 mb-2">{{ event.location }}</p>
             <p class="text-gray-300 mb-2">Category: {{ event.category.name }}</p>
-            <p class="text-gray-300 mb-2">Tickets Sold: {{ event.ticketsSold }} / {{ event.totalTickets }}</p>
-            <p class="text-gray-300 mb-4">Revenue: ${{ event.revenue }}</p>
+            <p class="text-gray-300 mb-2">Tickets Remaining: {{ event.totalTickets }}</p>
+            <p class="text-gray-300 mb-4">Expected Revenue: ${{ event.revenue }}</p>
           </div>
           <div class="flex flex-col space-y-2">
             <div class="flex justify-between">
@@ -36,8 +36,8 @@
               </button>
             </div>
             <div class="flex justify-between">
-              <button (click)="viewReports(event.id)" class="bg-green-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-green-700 rounded">
-                View Reports
+              <button (click)="verifyTickets(event.id)" class="bg-green-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-green-700 rounded">
+                Verify Tickets
               </button>
               <button (click)="openCancelModal(event)" class="bg-red-600 text-white text-sm font-semibold py-2 px-3 transition duration-300 hover:bg-red-700 rounded">
                 Cancel Event

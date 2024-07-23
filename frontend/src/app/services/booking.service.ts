@@ -23,11 +23,13 @@ export class BookingService {
   }
 
   verifyBooking(bookingId: string, verificationCode: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/verify/${bookingId}`, {
-      headers: this.getHeaders(),
-      params: { verificationCode }
-    });
+    return this.http.post(`${this.baseUrl}/verify/${bookingId}`, { verificationCode }, { headers: this.getHeaders() });
   }
+
+  getVerifiedBookings(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/bookings/v/verified`, { headers: this.getHeaders() });
+  }
+
   getBooking(userId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userId}`, { headers: this.getHeaders() });
   }

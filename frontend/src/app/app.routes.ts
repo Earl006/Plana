@@ -31,6 +31,7 @@ import { AdminBookingsComponent } from './admin/admin-bookings/admin-bookings.co
 import { BookingSuccessComponent } from './user/booking-success/booking-success.component';
 import { AdminGuard, AttendeeGuard, AuthGuard, EventManagerGuard } from './guards/auth-guard.guard';
 import { UnauthrorisedComponent } from './unauthrorised/unauthrorised.component';
+import { VerifyTicketsComponent } from './event-manager/verify-tickets/verify-tickets.component';
 
 export const routes: Routes = [
   // ATTENDEE
@@ -56,6 +57,7 @@ export const routes: Routes = [
   { path: 'edit-event/:id', component: EditEventComponent, canActivate: [AuthGuard, EventManagerGuard] },
   { path: 'attendee-lists', component: AtendeeListsComponent, canActivate: [AuthGuard, EventManagerGuard] },
   { path: 'my-calendar', component: MyCalendarComponent, canActivate: [AuthGuard, EventManagerGuard] },
+  { path: 'verify/:id', component: VerifyTicketsComponent, canActivate: [AuthGuard, EventManagerGuard] },
 
   // ADMIN
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },

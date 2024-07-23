@@ -101,8 +101,8 @@ export class MyEventsComponent implements OnInit {
     this.router.navigate(['/manage-attendees', eventId]);
   }
 
-  viewReports(eventId: string): void {
-    this.router.navigate(['/event-reports', eventId]);
+  verifyTickets(eventId: string): void {
+    this.router.navigate(['/verify/', eventId]);
   }
 
   openCancelModal(event: Event): void {
