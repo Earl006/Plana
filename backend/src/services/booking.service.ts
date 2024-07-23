@@ -267,7 +267,21 @@ export class BookingService {
         updateSuccessful: true
       }
     };
+
+   
   }
+  async getVerifiedBookings(): Promise<Booking[]> {
+    return prisma.booking.findMany({
+      where: { verified: true },
+      include: {
+        event: true,
+        TicketBookings: true,
+        user: true,
+      },
+    });
+  }
+
+
 
   private generateVerificationCode(): string {
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
