@@ -62,6 +62,8 @@ export class AuthComponent {
           
           this.successMessage = 'Login successful!';
           this.errorMessage = '';
+
+
   
           // Check the user's role and route accordingly
           if (response.result.user.role === 'ATTENDEE') {
