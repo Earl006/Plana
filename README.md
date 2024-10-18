@@ -120,6 +120,8 @@ ng serve
 - Backend API: http://localhost:3000
 
 ## PROJECT STRUCTURE
+
+```
 plana/
 ├── backend/
 │   ├── src/
@@ -158,6 +160,7 @@ plana/
     │   │   └── shared/
     │   └── environments/
     └── package.json
+```
 
 ## License
 - This project is licensed under the MIT License - see the LICENSE file for details.
