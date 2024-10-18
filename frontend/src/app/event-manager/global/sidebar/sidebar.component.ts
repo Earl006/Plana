@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +10,8 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+  constructor(private router: Router){}
+
   isExpanded = false;
   
 
@@ -18,7 +20,7 @@ export class SidebarComponent {
   }
 
   logout() {
-    // Implement logout logic here
-    console.log('Logging out...');
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/home']);
   }
 }

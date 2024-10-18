@@ -37,7 +37,7 @@ describe('TicketService', () => {
 
       (prismaClientMock.booking.findUnique as jest.Mock).mockResolvedValue(mockBooking);
       (QRCode.toDataURL as jest.Mock).mockResolvedValue('mock-qr-code-data-url');
-      (path.join as jest.Mock).mockReturnValue('/mock/path/ticket.pdf');
+      (path.join as jest.Mock).mockReturnValue('../../public/tickets/ticket.pdf');
       (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
 
       const result = await ticketService.generateTicket('booking1', attendeeDetails);
@@ -48,7 +48,7 @@ describe('TicketService', () => {
       });
       expect(QRCode.toDataURL).toHaveBeenCalledWith('VC123');
       expect(fs.writeFileSync).toHaveBeenCalled();
-      expect(result).toBe('/mock/path/ticket.pdf');
+      expect(result).toBe('../../public/tickets/ticket.pdf');
     });
 
     it('should throw an error if booking is not found', async () => {

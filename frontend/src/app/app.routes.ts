@@ -49,7 +49,7 @@ export const routes: Routes = [
   { path: 'register', component: AuthComponent, data: { mode: 'register' } },
   { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard, AttendeeGuard] },
   { path: 'booking/success', component: BookingSuccessComponent, canActivate: [AuthGuard, AttendeeGuard] },
-  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'profile', component: EditProfileComponent, canActivate: [AuthGuard] },
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
 

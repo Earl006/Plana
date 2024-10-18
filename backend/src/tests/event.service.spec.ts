@@ -3,9 +3,10 @@ import { PrismaClient, Event, Ticket } from '@prisma/client';
 import { uploadToCloudinary } from '../utils/cloudinaryUtil';
 import chatService from '../services/chat.service';
 
+
 jest.mock('@prisma/client');
-jest.mock('../path/to/utils/cloudinaryUtil');
-jest.mock('../path/to/chat.service');
+jest.mock('../utils/cloudinaryUtil.ts');
+jest.mock('../services/chat.service');
 
 describe('EventService', () => {
   let eventService: EventService;
