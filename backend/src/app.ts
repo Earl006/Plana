@@ -15,9 +15,9 @@ const app = express();
 export const prisma = new PrismaClient();
 
 app.use(cors({
-    origin: 'http://localhost:4200', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'] 
+    origin: ['http://localhost:4200', 'https://plana-o2hk.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
