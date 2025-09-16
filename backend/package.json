@@ -5,9 +5,14 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy-mails",
+    "copy-mails": "cp -r src/mails dist/",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "seed": "node prisma/seed.js",
+    "seed:ts": "tsx prisma/seed.ts",
+    "db:seed": "node prisma/seed.js",
+    "db:reset": "npx prisma migrate reset && npm run seed"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +32,7 @@
     "prisma": "^5.16.0",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.3",
+    "tsx": "^4.20.5",
     "typescript": "^5.5.4"
   },
   "dependencies": {
