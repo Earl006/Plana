@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NotificationChatService {
-  private apiUrl = 'http://localhost:3000/api'; // Replace with your backend URL
+  private apiUrl = 'https://plana-ehci.onrender.com/api'; // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
 

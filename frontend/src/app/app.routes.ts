@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'https://plana-ehci.onrender.com', options: {} };
 
 import { HomeComponent } from './user/home/home.component';
 import { AboutComponent } from './user/about/about.component';

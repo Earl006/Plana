@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoryService {
-  private baseUrl = 'http://localhost:3000/api/category';
+  private baseUrl = 'https://plana-ehci.onrender.com/api/category';
 
   constructor(private http: HttpClient) { }
 

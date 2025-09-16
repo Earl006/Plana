@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EventService {
-  private baseUrl = 'http://localhost:3000/api/event';
+  private baseUrl = 'https://plana-ehci.onrender.com/api/event';
 
   constructor(private http: HttpClient) { }
 

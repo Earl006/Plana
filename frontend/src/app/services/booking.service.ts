@@ -7,7 +7,7 @@ import { booking } from '../interfaces/types';
   providedIn: 'root'
 })
 export class BookingService {
-  private baseUrl = 'http://localhost:3000/api/booking';
+  private baseUrl = 'https://plana-ehci.onrender.com/api/booking';
 
   constructor(private http: HttpClient) { }
 
