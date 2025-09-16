@@ -15,7 +15,7 @@
   "description": "",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/express": "^4.17.21",
+    "@types/express": "^4.17.23",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.9",
@@ -41,6 +41,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
+    "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",

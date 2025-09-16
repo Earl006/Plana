@@ -9,7 +9,8 @@ export class TicketController {
       const { bookingId } = req.params;
       const attendeeDetails = { 
         firstName: req.body.firstName, 
-        lastName: req.body.lastName 
+        lastName: req.body.lastName,
+        ticketType: req.body.ticketType
       }; 
       const ticketUrl = await ticketService.generateTicket(bookingId, attendeeDetails);
       res.json({ ticketUrl });
