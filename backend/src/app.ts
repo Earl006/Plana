@@ -2,6 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import http from 'http';
 import { Server } from 'socket.io';
+import cron from 'node-cron';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import categoryRoutes from './routes/category.routes';
@@ -22,12 +23,32 @@ app.use(cors({
 
 app.use(express.json());
 
+// Add keep-alive endpoint
+app.get('/api/keep-alive', (req, res) => {
+  res.status(200).json({ 
+    status: 'alive', 
+    timestamp: new Date().toISOString(),
+    message: 'Server is awake' 
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/event', eventRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/chat', chatRoutes);  // Use chat routes
+
+// Keep-alive cron job - runs every 40 seconds
+cron.schedule('*/40 * * * * *', async () => {
+  try {
+    // Simple database query to keep connection alive
+    await prisma.user.count();
+    console.log(` Keep-alive ping at ${new Date().toISOString()}`);
+  } catch (error) {
+    console.error('Keep-alive error:', error);
+  }
+});
 
 const server = http.createServer(app);
 const io = new Server(server, {

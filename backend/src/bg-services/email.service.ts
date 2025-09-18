@@ -18,12 +18,12 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
   try {
     console.log('Creating transport...');
     const transporter: Transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT || '587'),
-      secure: true, // true for port 465, false for other ports
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true', // Use the env value
       auth: {
-        user: process.env.EMAIL_NAME,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
       tls: {
         rejectUnauthorized: false,
@@ -41,7 +41,7 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
     console.log('Email template rendered successfully');
 
     const mailOptions = {
-      from: process.env.EMAIL_NAME,
+      from: process.env.SMTP_FROM,
       to: email,
       subject,
       html,
