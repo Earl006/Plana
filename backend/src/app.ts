@@ -39,16 +39,44 @@ app.use('/api/event', eventRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/chat', chatRoutes);  // Use chat routes
 
-// Keep-alive cron job - runs every 40 seconds
-cron.schedule('*/40 * * * * *', async () => {
+// Keep-alive function that makes HTTP requests
+const keepServerAlive = async () => {
   try {
-    // Simple database query to keep connection alive
-    await prisma.user.count();
-    console.log(` Keep-alive ping at ${new Date().toISOString()}`);
+    // Get the server URL - Render provides this as an environment variable
+    const baseUrl = process.env.RENDER_EXTERNAL_URL || 
+                   `https://${process.env.RENDER_SERVICE_NAME}.onrender.com` ||
+                   'http://localhost:3000';
+    
+    const response = await fetch(`${baseUrl}/api/keep-alive`, {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'KeepAlive/1.0'
+      }
+    });
+    
+    if (response.ok) {
+      console.log(`🔥 Keep-alive HTTP ping successful at ${new Date().toISOString()}`);
+    } else {
+      console.log(`⚠️ Keep-alive ping returned status: ${response.status}`);
+    }
   } catch (error) {
-    console.error('Keep-alive error:', error);
+    console.error('❌ Keep-alive ping failed:', error instanceof Error ? error.message : String(error));
+    
+    // Fallback: at least do a database operation
+    try {
+      await prisma.user.count();
+      console.log(`📊 Fallback database ping at ${new Date().toISOString()}`);
+    } catch (dbError) {
+      console.error('Database fallback also failed:', dbError instanceof Error ? dbError.message : String(dbError));
+    }
   }
-});
+};
+
+// Keep-alive cron job - runs every 10 minutes (should be less than 15min Render timeout)
+cron.schedule('*/10 * * * *', keepServerAlive);
+
+// Also run immediately when server starts
+setTimeout(keepServerAlive, 30000); // Wait 30 seconds after startup
 
 const server = http.createServer(app);
 const io = new Server(server, {
